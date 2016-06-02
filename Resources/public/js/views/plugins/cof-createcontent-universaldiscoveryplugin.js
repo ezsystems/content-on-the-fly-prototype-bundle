@@ -11,6 +11,10 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
      */
     Y.namespace('cof.Plugin');
 
+    var CLASS_HIDDEN = 'cof-is-hidden',
+        SELECTOR_TAB_CREATE = '[href="#ez-ud-create"]',
+        SELECTOR_TAB_LABEL = '.ez-tabs-label';
+
     /**
      * Content on the Fly plugin. Extends the Universal Discovery Widget View
      *
@@ -21,8 +25,59 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
      */
     Y.cof.Plugin.CreateContentUniversalDiscovery = Y.Base.create('CreateContentUniversalDiscoveryWidgetPlugin', Y.Plugin.Base, [], {
         initializer: function () {
-            this.get('host').get('methods').push(this.get('tabCreateView'));
+            var host = this.get('host');
+
+            host.get('methods').push(this.get('tabCreateView'));
+
+            host.on('*:saveDiscoveryState', this._saveDiscoveryWidgetState, this);
+            host.on('*:restoreDiscoveryWidget', this._restoreDiscoveryWidgetState, this);
+            host.on('activeChange', this._toggleTabCreateVisibility, this);
         },
+
+        /**
+         * Saves the current state of Discovery Widget.
+         *
+         * @protected
+         * @method _saveDiscoveryState
+         * @param event {Object} event facade
+         */
+        _saveDiscoveryWidgetState: function (event) {
+            event.target.set('savedDiscoveryState', this.get('host').getAttrs());
+        },
+
+        /**
+         * Restores state of Discovery Widget.
+         *
+         * @protected
+         * @method _restoreDiscoveryWidgetState
+         * @param event {Object} event facade
+         */
+        _restoreDiscoveryWidgetState: function (event) {
+            var host = this.get('host'),
+                savedDiscoveryState = event.target.get('savedDiscoveryState');
+
+            host.setAttrs(savedDiscoveryState);
+            host._set('selection', savedDiscoveryState.selection);
+        },
+
+        /**
+         * Toggles visibility of the create tab.
+         *
+         * @protected
+         * @method _toggleTabCreateVisibility
+         */
+        _toggleTabCreateVisibility: function () {
+            var host = this.get('host'),
+                tabCreateLabel = host.get('container').one(SELECTOR_TAB_CREATE).ancestor(SELECTOR_TAB_LABEL);
+
+            if (host.get('hideTabCreate')) {
+                tabCreateLabel.addClass(CLASS_HIDDEN);
+
+                host.set('hideTabCreate', false);
+            } else {
+                tabCreateLabel.removeClass(CLASS_HIDDEN);
+            }
+        }
     }, {
         NS: 'createContentUniversalDiscoveryWidgetPlugin',
         ATTRS: {

@@ -24,15 +24,18 @@ YUI.add('cof-contentcreationview', function (Y) {
         SELECTOR_BACK_BUTTON = SELECTOR_BUTTON + '--back',
         SELECTOR_FINISH_BUTTON = SELECTOR_BUTTON + '--finish',
         SELECTOR_CONTENT_TYPE =SELECTOR_CONTENT_CREACTION +  '__content-type-selector',
-        SELECTOR_CHANGE_CONTENT_TYPE = '.cof-btn--change-content-type',
+        SELECTOR_CHANGE_CONTENT_TYPE = SELECTOR_BUTTON + '--change-content-type',
         SELECTOR_ITEM_SELECTED = '.ez-selection-filter-item-selected',
         ATTR_DESCRIPTION = 'data-description',
         TOOLTIP = '<div class="cof-content-creation__tooltip cof-is-hidden"></div>',
+        SELECTOR_EDIT_LOCATION_BUTTON = SELECTOR_BUTTON +  '--edit-location',
+        SELECTOR_LOCATION = SELECTOR_CONTENT_CREACTION + '__location',
         EVENTS = {};
 
     EVENTS[SELECTOR_NEXT_BUTTON] = {'tap': '_changeFormPage'};
     EVENTS[SELECTOR_BACK_BUTTON] = {'tap': '_changeFormPage'};
     EVENTS[SELECTOR_CHANGE_CONTENT_TYPE] = {'tap': '_changeFormPage'};
+    EVENTS[SELECTOR_EDIT_LOCATION_BUTTON] = {'tap': '_openDiscoveryWidget'};
 
     /**
      * The Content Creation view
@@ -50,6 +53,7 @@ YUI.add('cof-contentcreationview', function (Y) {
             this.on('contentTypeGroupsChange', this._renderContentTypeSelector, this);
             this.on('*:itemSelected', this._enableNextButton, this);
             this.on('*:itemSelected', this._toggleTooltip, this);
+            this.on('selectedLocationChange', this._updateSelectedLocation, this);
         },
 
         render: function () {
@@ -93,6 +97,16 @@ YUI.add('cof-contentcreationview', function (Y) {
         },
 
         /**
+         * Enable the finish button when user select location
+         *
+         * @protected
+         * @method _enableFinishButton
+         */
+        _enableFinishButton: function () {
+                this.get('container').one(SELECTOR_FINISH_BUTTON).removeClass(CLASS_BUTTON_DISABLED);
+        },
+
+        /**
          * Gets the Content Types
          *
          * @protected
@@ -100,11 +114,20 @@ YUI.add('cof-contentcreationview', function (Y) {
          * @param event {Object} event facade
          */
         _getContentTypes: function (event) {
-            var container = this.get('container');
+            var eventNewVal = event.newVal,
+                container = this.get('container'),
+                restoreFormState = this.get('restoreFormState');
 
-            if (!event.newVal) {
+
+            if (!eventNewVal && !restoreFormState) {
                 this._resetFormState();
 
+                return;
+            } else if (eventNewVal && restoreFormState) {
+                this.set('restoreFormState', false);
+
+                return;
+            } else if (restoreFormState) {
                 return;
             }
 
@@ -171,6 +194,57 @@ YUI.add('cof-contentcreationview', function (Y) {
 
             this.set('activePage', activePage ? 0 : 1);
         },
+
+        /**
+         * Fires event to save the current state of Discovery Widget and open new Discovery Widget.
+         *
+         * @protected
+         * @method _openDiscoveryWidget
+         */
+        _openDiscoveryWidget: function () {
+            /**
+             * Fired to save the current state of Discovery Widget.
+             * Listened in the cof.Plugin.CreateContentUniversalDiscovery
+             *
+             */
+            this.fire('saveDiscoveryState');
+            /**
+             * Fired to open new Discovery Widget.
+             * Listened in the cof.Plugin.createContentSelectContentType
+             *
+             */
+            this.fire('openUniversalDiscoveryWidget');
+        },
+
+        /**
+         * Updates the selected location to creating content.
+         *
+         * @protected
+         * @method _updateSelectedLocation
+         * @param event {Object} event facade
+         */
+        _updateSelectedLocation: function (event) {
+            var eventNewVal = event.newVal,
+                locationPath,
+                contentInfo,
+                selectedName,
+                pathSeparator = '/',
+                selectedPath = pathSeparator;
+
+            contentInfo = eventNewVal.contentInfo;
+            locationPath = eventNewVal.location.get('path');
+            selectedName = contentInfo.get('name');
+
+            locationPath.forEach(function (location) {
+                selectedPath += location.get('contentInfo').get('name') + pathSeparator;
+            });
+
+            selectedPath += selectedName;
+
+            this.get('container').one(SELECTOR_LOCATION).setHTML(selectedPath);
+
+            this._enableFinishButton();
+        },
     }, {
         ATTRS: {
             /**
@@ -223,6 +297,25 @@ YUI.add('cof-contentcreationview', function (Y) {
                 value: true,
                 readOnly: true
             },
+
+            /**
+             * Should restore the widget state
+             *
+             * @attribute restoreFormState
+             * @type Boolean
+             * @default 'False'
+             */
+            restoreFormState: {
+                value: false
+            },
+
+            /**
+             * The selected location
+             *
+             * @attribute selectedLocation
+             * @type Object
+             */
+            selectedLocation: {},
         }
     });
 });

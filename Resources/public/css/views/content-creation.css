@@ -60,6 +60,7 @@
 .ez-view-contentcreationview .cof-content-creation__location {
     margin-bottom: 1.5rem;
     display: block;
+    min-height: 2.5rem;
 }
 
 .ez-view-contentcreationview .cof-btn--change-content-type {
