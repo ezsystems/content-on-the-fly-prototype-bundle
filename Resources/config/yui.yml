@@ -1,0 +1,23 @@
+system:
+    default:
+        yui:
+            modules:
+                cof-createcontent-universaldiscoveryplugin:
+                    requires:
+                        - 'plugin'
+                        - 'base'
+                        - 'node'
+                        - 'ez-pluginregistry'
+                        - 'cof-universaldiscoverycreateview'
+                    dependencyOf: ['ez-universaldiscoveryview']
+                    path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-universaldiscoveryplugin.js
+                cof-universaldiscoverycreateview:
+                    requires:
+                        - 'base'
+                        - 'node'
+                        - 'ez-universaldiscoverymethodbaseview'
+                        - 'universaldiscoverycreateview-ez-template'
+                    path: %ezcontentonthefly.public_dir%/js/views/cof-universaldiscoverycreateview.js
+                universaldiscoverycreateview-ez-template:
+                    type: 'template'
+                    path: %ezcontentonthefly.public_dir%/templates/blank.hbt
