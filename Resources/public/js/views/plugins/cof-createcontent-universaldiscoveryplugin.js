@@ -35,10 +35,12 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
              */
             tabCreateView: {
                 valueFn: function () {
+                    var host = this.get('host');
+
                     return new Y.cof.UniversalDiscoveryCreateView({
-                        bubbleTargets: this.get('host'),
+                        bubbleTargets: host,
                         priority: 300,
-                        isAlreadySelected: Y.bind(this.get('host')._isAlreadySelected, this.get('host'))
+                        isAlreadySelected: Y.bind(host._isAlreadySelected, host)
                     });
                 }
             }

@@ -1,0 +1,31 @@
+<div class="cof-content-creation__content">
+    <div class="cof-content-creation__page-one">
+        <div class="cof-content-creation__header">
+            <ul class="cof-content-creation__header__list">
+                <li class="cof-content-creation__header__text cof-content-creation__header__text--highlighted">Choose a Content Type</li>
+                <li class="cof-content-creation__header__text">Confirm Location</li>
+            </ul>
+        </div>
+        <div class="cof-content-creation__content-type-selector"></div>
+    </div>
+    <div class="cof-content-creation__page-two">
+        <div class="cof-content-creation__header">
+            <ul class="cof-content-creation__header__list">
+                <li class="cof-content-creation__header__text">Choose a Content Type
+                    <button class="cof-btn cof-btn--rounded cof-btn--change-content-type"></button>
+                </li>
+                <li class="cof-content-creation__header__text cof-content-creation__header__text--highlighted">Confirm Location</li>
+            </ul>
+        </div>
+        <h4 class="cof-content-creation__location--title">Selected Location:</h4>
+        <span class="cof-content-creation__location"></span>
+        <button class="cof-btn cof-btn--big cof-btn--rounded cof-btn--edit-location">Select Location</button>
+        <span class="cof-content-creation__separator">or</span>
+        <button class="cof-btn cof-btn--big cof-btn--select">Select from Suggested Locations</button>
+    </div>
+</div>
+<div class="cof-pagination">
+    <button class="cof-btn cof-btn--rounded cof-btn--back">Back</button>
+    <button class="cof-btn cof-btn--rounded cof-btn--next cof-btn--disabled">Next</button>
+    <button class="cof-btn cof-btn--rounded cof-btn--finish cof-btn--disabled">{{finishBtnText}}</button>
+</div>

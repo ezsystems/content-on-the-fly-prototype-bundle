@@ -1,0 +1,20 @@
+/**
+ * Copyright (C) eZ Systems AS. All rights reserved.
+ * For full copyright and license information view LICENSE file distributed with this source code.
+ */
+
+.ez-view-universaldiscoverycreateview .ez-view-contentcreationview {
+    background: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+@media (max-width: 1400px) {
+    .ez-view-universaldiscoverycreateview .ez-selection-filter-item-selected:before {
+        left: 46.8rem;
+    }
+
+    .ez-view-universaldiscoverycreateview .ez-selection-filter-item-selected:after {
+        left: 48rem;
+    }
+}
