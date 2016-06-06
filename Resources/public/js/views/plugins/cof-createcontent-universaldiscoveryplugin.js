@@ -31,6 +31,7 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
 
             host.on('*:saveDiscoveryState', this._saveDiscoveryWidgetState, this);
             host.on('*:restoreDiscoveryWidget', this._restoreDiscoveryWidgetState, this);
+            host.on('*:contentLoaded', this._closeDiscoveryWidget, this);
             host.on('activeChange', this._toggleTabCreateVisibility, this);
         },
 
@@ -77,7 +78,24 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
             } else {
                 tabCreateLabel.removeClass(CLASS_HIDDEN);
             }
-        }
+        },
+
+        /**
+         * Close the discovery widget after publishing content.
+         *
+         * @protected
+         * @method _closeDiscoveryWidget
+         * @param event {Object} event facade
+         */
+        _closeDiscoveryWidget: function (event) {
+            var host = this.get('host');
+
+            host.fire('confirmSelectedContent', {selection: event});
+
+            host.fire('contentDiscovered', {
+                selection: host.get('selection'),
+            });
+        },
     }, {
         NS: 'createContentUniversalDiscoveryWidgetPlugin',
         ATTRS: {

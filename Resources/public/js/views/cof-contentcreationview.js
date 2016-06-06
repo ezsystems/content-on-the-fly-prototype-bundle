@@ -26,14 +26,19 @@ YUI.add('cof-contentcreationview', function (Y) {
         SELECTOR_CONTENT_TYPE =SELECTOR_CONTENT_CREACTION +  '__content-type-selector',
         SELECTOR_CHANGE_CONTENT_TYPE = SELECTOR_BUTTON + '--change-content-type',
         SELECTOR_ITEM_SELECTED = '.ez-selection-filter-item-selected',
-        ATTR_DESCRIPTION = 'data-description',
         TOOLTIP = '<div class="cof-content-creation__tooltip cof-is-hidden"></div>',
         SELECTOR_EDIT_LOCATION_BUTTON = SELECTOR_BUTTON +  '--edit-location',
         SELECTOR_LOCATION = SELECTOR_CONTENT_CREACTION + '__location',
+        SELECTOR_CONTENT_CREATOR = SELECTOR_CONTENT_CREACTION + '__creator',
+        ATTR_DESCRIPTION = 'data-description',
+        ATTR_ACTION = 'data-action',
+        SELECTOR_ACTION = '[' + ATTR_ACTION + ']',
+        TEXT_PUBLISH = 'publish',
         EVENTS = {};
 
     EVENTS[SELECTOR_NEXT_BUTTON] = {'tap': '_changeFormPage'};
     EVENTS[SELECTOR_BACK_BUTTON] = {'tap': '_changeFormPage'};
+    EVENTS[SELECTOR_FINISH_BUTTON] = {'tap': '_renderCreateContent'};
     EVENTS[SELECTOR_CHANGE_CONTENT_TYPE] = {'tap': '_changeFormPage'};
     EVENTS[SELECTOR_EDIT_LOCATION_BUTTON] = {'tap': '_openDiscoveryWidget'};
 
@@ -54,6 +59,8 @@ YUI.add('cof-contentcreationview', function (Y) {
             this.on('*:itemSelected', this._enableNextButton, this);
             this.on('*:itemSelected', this._toggleTooltip, this);
             this.on('selectedLocationChange', this._updateSelectedLocation, this);
+            this.on('*:contentLoaded', this._hideCreateContentView, this, true);
+            this.on('*:closeView', this._hideCreateContentView, this, false);
         },
 
         render: function () {
@@ -239,7 +246,87 @@ YUI.add('cof-contentcreationview', function (Y) {
 
             this.get('container').one(SELECTOR_LOCATION).setHTML(selectedPath);
 
+            /**
+             * Fired to set selected location where place the new content.
+             * Listened in the eZS.Plugin.UniversalDiscoveryWidgetService
+             *
+             */
+            this.fire('setParentLocation', {selectedLocation: eventNewVal.location});
+
             this._enableFinishButton();
+        },
+
+        /**
+         * Render the create content view.
+         *
+         * @protected
+         * @method _renderCreateContent
+         * @param event {Object} event facade
+         */
+        _renderCreateContent: function (event) {
+            var container = this.get('container'),
+                CreateContentConstructor = this.get('createContentView'),
+                contentTypeSelector = this.get('contentTypeSelectorView'),
+                createContentView;
+
+            if (event.target.hasClass(CLASS_BUTTON_DISABLED)) {
+                return;
+            }
+
+            createContentView = new CreateContentConstructor({
+                content: contentTypeSelector.get('content'),
+                version: contentTypeSelector.get('version'),
+                mainLocation: this.get('selectedLocation').location,
+                contentType: contentTypeSelector.get('selectedContentType'),
+                owner: contentTypeSelector.get('owner'),
+                user: contentTypeSelector.get('user'),
+                languageCode: contentTypeSelector.get('languageCode')
+            });
+
+            createContentView.addTarget(this);
+
+            container.one(SELECTOR_CONTENT_CREATOR)
+                     .setHTML(createContentView.render().get('container'))
+                     .removeClass(CLASS_HIDDEN);
+
+            createContentView.set('active', true);
+
+            this._hideButtons(createContentView);
+        },
+
+        /**
+         * Hides buttons besides publish.
+         *
+         * @protected
+         * @method _hideButtons
+         * @param view {Object} the view instance
+         */
+        _hideButtons: function (view) {
+            var buttons = view.get('container').all(SELECTOR_ACTION).getDOMNodes();
+
+            buttons.forEach(function (button) {
+                if (button.getAttribute(ATTR_ACTION) !== TEXT_PUBLISH) {
+                    button.classList.add(CLASS_HIDDEN);
+                }
+            });
+        },
+
+        /**
+         * Hides the create content view.
+         *
+         * @protected
+         * @method _hideCreateContentView
+         * @param event {Object} event facade
+         * @param event {Boolean} should hide the widget?
+         */
+        _hideCreateContentView: function (event, hideWidget) {
+            var container = this.get('container');
+
+            container.one(SELECTOR_CONTENT_CREATOR).addClass(CLASS_HIDDEN);
+
+            if (hideWidget) {
+                this.set('displayed', false);
+            }
         },
     }, {
         ATTRS: {
@@ -255,6 +342,16 @@ YUI.add('cof-contentcreationview', function (Y) {
                         bubbleTargets: this
                     });
                 }
+            },
+
+            /**
+             * The Content Edit View
+             *
+             * @attribute createContentView
+             * @type String
+             */
+            createContentView: {
+                value: Y.eZ.ContentEditView
             },
 
             /**

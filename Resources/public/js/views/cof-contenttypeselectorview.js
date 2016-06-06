@@ -174,12 +174,38 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
         },
 
         /**
-         * Empty method.
+         * Sets the selected content type.
          * Overriden to stop redirecting user to the content creation.
          *
          * @protected
          * @method _createContentEvent
          */
-        _createContentEvent: function () {}
+         _createContentEvent: function (typeId) {
+             var type;
+
+             type = Y.Array.find(this._getContentTypes(), function (t) {
+                 return t.get('id') === typeId;
+             });
+
+             this.set('selectedContentType', type);
+
+             /**
+              * Fired to prepare content model for content type.
+              * Listened in the eZS.Plugin.SelectCreateContent
+              *
+              * @param contentType {Object} the content type model
+              */
+             this.fire('prepareContentModel', {contentType: type});
+         },
+    }, {
+        ATTRS: {
+            /**
+             * The selected content type
+             *
+             * @attribute selectedContentType
+             * @type Object
+             */
+            selectedContentType: {}
+        }
     });
 });

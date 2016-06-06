@@ -29,3 +29,4 @@
     <button class="cof-btn cof-btn--rounded cof-btn--next cof-btn--disabled">Next</button>
     <button class="cof-btn cof-btn--rounded cof-btn--finish cof-btn--disabled">{{finishBtnText}}</button>
 </div>
+<div class="cof-content-creation__creator cof-is-hidden"></div>
