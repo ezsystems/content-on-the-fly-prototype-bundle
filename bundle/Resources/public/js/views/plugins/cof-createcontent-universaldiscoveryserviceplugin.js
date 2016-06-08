@@ -73,8 +73,10 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
             var host = this.get('host'),
                 app = host.get('app');
 
-            event.preventDefault();
-            event.stopPropagation();
+            if (target.get('preventClosingDiscoveryWidget')) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
 
             event.selection.location.loadPath({api: host.get('capi')}, Y.bind(function (error, path) {
                 if (error) {
@@ -239,6 +241,26 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
                 });
             });
         },
+
+        /**
+         * Sets the contentType, languageCode, parentLocation and parentContent on the next
+         * view service if the users wants to create a new content
+         *
+         * @method setNextViewServiceParameters
+         * @param {eZ.ViewService} service
+         */
+        setNextViewServiceParameters: function (service) {
+            var host = this.get('host');
+
+            if (host.get('parentLocation')) {
+                service.setAttrs({
+                    parentLocation: host.get('parentLocation'),
+                    parentContent: host.get('contentType'),
+                    contentType: host.get('contentType'),
+                    languageCode: host.get('languageCode')
+                });
+            }
+        },
     }, {
         NS: 'CreateContentUniversalDiscoveryServicePlugin',
         ATTRS: {
@@ -267,6 +289,6 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
     });
 
     Y.eZ.PluginRegistry.registerPlugin(
-        Y.cof.Plugin.CreateContentUniversalDiscoveryService, ['universalDiscoveryViewService']
+        Y.cof.Plugin.CreateContentUniversalDiscoveryService, ['universalDiscoveryViewService', 'dashboardBlocksViewService']
     );
 });

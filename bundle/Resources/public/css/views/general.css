@@ -3,10 +3,14 @@
  * For full copyright and license information view LICENSE file distributed with this source code.
  */
 
- .cof-is-hidden {
- 	display: none !important;
- }
+.cof-is-hidden {
+    display: none !important;
+}
 
- .cof-invisible {
- 	opacity: 0 !important;
- }
+.cof-invisible {
+    opacity: 0 !important;
+}
+
+.cof-index-reset {
+    z-index: auto !important;
+}

@@ -1,0 +1,35 @@
+/**
+ * Copyright (C) eZ Systems AS. All rights reserved.
+ * For full copyright and license information view LICENSE file distributed with this source code.
+ */
+
+.ez-view-createcontentpopupview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 300;
+}
+
+.ez-view-createcontentpopupview .ez-view-contentcreationview {
+    height: 40rem;
+}
+
+.ez-view-createcontentpopupview .cof-create-popup {
+    position: absolute;
+    top: 3rem;
+    left: calc(50% - 12.5rem);
+}
+
+.ez-view-createcontentpopupview .cof-btn--close {
+    position: absolute;
+    z-index: 2;
+    top: 2rem;
+    right: 2rem;
+    height: 2rem;
+    width: 2rem;
+    border: 0 none;
+    padding: 0;
+    overflow: hidden;
+}

@@ -3,9 +3,8 @@
  * For full copyright and license information view LICENSE file distributed with this source code.
  */
 
-.ez-view-contenttypeselectorview .cof-content-creation__tooltip {
-    width: 15rem;
-    position: fixed;
-    padding: 1rem;
-    transform: translateY(-50%);
+.ez-view-createcontentbuttonview {
+    position: absolute;
+    top: 2vh;
+    right: 6rem;
 }

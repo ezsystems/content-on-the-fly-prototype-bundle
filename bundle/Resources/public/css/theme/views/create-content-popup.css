@@ -1,0 +1,17 @@
+/**
+ * Copyright (C) eZ Systems AS. All rights reserved.
+ * For full copyright and license information view LICENSE file distributed with this source code.
+ */
+
+.ez-view-createcontentpopupview {
+    background: rgba(0, 0, 0, .6);
+}
+
+.ez-view-createcontentpopupview .cof-create-popup {
+    background: #d8d8d8;
+    border-radius: .5rem;
+}
+
+.ez-view-createcontentpopupview .cof-content-creation__tooltip:before {
+    border-color: transparent #bbb transparent transparent;
+}

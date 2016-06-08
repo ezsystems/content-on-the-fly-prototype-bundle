@@ -19,6 +19,7 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
         SELECTOR_TOOLTIP = '.cof-content-creation__tooltip',
         ATTR_ID = 'data-id',
         ATTR_DESCRIPTION = 'data-description',
+        PX = 'px',
         SCROLL_TIMEOUT = 100;
 
     /**
@@ -78,6 +79,8 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
              * @param text {String} text to show on remove button
              */
             this.fire('itemSelected', {text: event.text});
+
+            this._correctTooltipPosition();
         },
 
         /**
@@ -89,7 +92,6 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
             this._toggleTooltip(true);
 
             this._setCorrectTooltipPositionOnScroll();
-            this._correctTooltipPosition();
         },
 
         /**
@@ -154,22 +156,23 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
         _correctTooltipPosition: function () {
             var container = this.get('container'),
                 selectedItem = container.one(SELECTOR_ITEM_SELECTED),
+                selectedItemRect,
                 contentTypeListRect = container.one(SELECTOR_CONTENT_TYPE_LIST).getDOMNode().getBoundingClientRect(),
-                contentTypeListRectTop = contentTypeListRect.top,
-                tooltip = container.one(SELECTOR_TOOLTIP),
-                selectedItemRectTop;
+                tooltipSpace = 40,
+                tooltip = container.one(SELECTOR_TOOLTIP);
 
             if (!selectedItem) {
                 return;
             }
 
-            selectedItemRectTop = selectedItem.getDOMNode().getBoundingClientRect().top;
+            selectedItemRect = selectedItem.getDOMNode().getBoundingClientRect();
 
-            if (selectedItemRectTop < contentTypeListRectTop || selectedItemRectTop > contentTypeListRectTop + contentTypeListRect.height) {
+            if (selectedItemRect.top < contentTypeListRect.top || selectedItemRect.top > contentTypeListRect.top + contentTypeListRect.height) {
                 tooltip.addClass(CLASS_INVISIBLE);
             } else {
                 tooltip.removeClass(CLASS_INVISIBLE);
-                tooltip.setStyle('top', selectedItemRectTop);
+                tooltip.setStyle('top', selectedItemRect.top + PX);
+                tooltip.setStyle('left', selectedItemRect.left + selectedItemRect.width + tooltipSpace + PX);
             }
         },
 

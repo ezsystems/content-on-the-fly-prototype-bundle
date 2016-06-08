@@ -298,6 +298,20 @@ YUI.add('cof-contentcreationview', function (Y) {
                 return;
             }
 
+            if (this.get('redirectionPrevented')) {
+                /**
+                 * Fired to create a new content of a given type
+                 *
+                 * @event createContent
+                 * @param contentType {eZ.ContentType} content type
+                 */
+                this.fire('createContent', {
+                    contentType: contentTypeSelector.get('selectedContentType')
+                });
+
+                return;
+            }
+
             createContentView = new CreateContentConstructor({
                 content: contentTypeSelector.get('content'),
                 version: contentTypeSelector.get('version'),
@@ -568,6 +582,28 @@ YUI.add('cof-contentcreationview', function (Y) {
              */
             suggestedItemTemplate: {
                 value: '<li class="' + CLASS_SUGGESTED_LOCATIONS_ITEM + '" data-id="<%= data.id %>"><abbr title=" <%= data.path %> "><%= data.path %></abbr></li>'
+            },
+
+            /**
+             * Should prevent from closing discovery widget?
+             *
+             * @attribute closingDiscoveryWidgetPrevented
+             * @type Boolean
+             * @default true
+             */
+            closingDiscoveryWidgetPrevented: {
+                value: true
+            },
+
+            /**
+             * Should redirect to create content?
+             *
+             * @attribute redirectionPrevented
+             * @type Boolean
+             * @default false
+             */
+            redirectionPrevented: {
+                value: false
             },
         }
     });

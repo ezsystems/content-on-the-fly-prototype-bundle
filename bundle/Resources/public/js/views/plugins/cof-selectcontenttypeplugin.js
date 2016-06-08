@@ -94,6 +94,6 @@ YUI.add('cof-selectcontenttypeplugin', function (Y) {
     });
 
     Y.eZ.PluginRegistry.registerPlugin(
-        Y.cof.Plugin.SelectContentType, ['universalDiscoveryViewService']
+        Y.cof.Plugin.SelectContentType, ['universalDiscoveryViewService', 'dashboardBlocksViewService']
     );
 });
