@@ -225,15 +225,11 @@ YUI.add('cof-contentcreationview', function (Y) {
          */
         _updateSelectedLocation: function (event) {
             var eventNewVal = event.newVal,
-                locationPath,
-                contentInfo,
-                selectedName,
+                locationPath = eventNewVal.location.get('path'),
+                contentInfo = eventNewVal.contentInfo,
+                selectedName = contentInfo.get('name'),
                 pathSeparator = '/',
                 selectedPath = pathSeparator;
-
-            contentInfo = eventNewVal.contentInfo;
-            locationPath = eventNewVal.location.get('path');
-            selectedName = contentInfo.get('name');
 
             locationPath.forEach(function (location) {
                 selectedPath += location.get('contentInfo').get('name') + pathSeparator;
