@@ -1,0 +1,49 @@
+/**
+ * Copyright (C) eZ Systems AS. All rights reserved.
+ * For full copyright and license information view LICENSE file distributed with this source code.
+ */
+
+.ez-view-universaldiscoverycreateview .ez-view-contentcreationview {
+    margin: 1.7rem 0 0 .7rem;
+}
+
+@media (max-width: 1400px) {
+    .ez-view-universaldiscoverycreateview {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .ez-view-universaldiscoverycreateview .cof-pagination {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    .ez-view-universaldiscoverycreateview .cof-pagination__btn--finish {
+        margin-left: .5rem
+    }
+
+    .ez-view-universaldiscoverycreateview .ez-view-contentcreationview {
+        height: auto;
+        margin: .7rem auto;
+        padding: 0 2rem;
+    }
+
+    .ez-view-universaldiscoverycreateview .cof-content-creation__page-one,
+    .ez-view-universaldiscoverycreateview .cof-content-creation__page-two {
+        padding: .5rem 2rem;
+    }
+
+    .ez-view-universaldiscoverycreateview .cof-content-creation__content {
+        height: auto;
+    }
+
+    .ez-view-universaldiscoverycreateview .cof-content-creation__content-type-selector {
+        min-height: 19.625rem;
+    }
+
+    .ez-view-universaldiscoverycreateview .ez-view-contenttypeselectorview.ez-selection-filter .ez-selection-filter-list {
+        max-height: 7rem;
+    }
+}

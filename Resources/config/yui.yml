@@ -11,13 +11,33 @@ system:
                         - 'cof-universaldiscoverycreateview'
                     dependencyOf: ['ez-universaldiscoveryview']
                     path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-universaldiscoveryplugin.js
+                cof-selectcontenttypeplugin:
+                    requires: ['ez-contentcreateplugin']
+                    dependencyOf: ['ez-universaldiscoveryviewservice']
+                    path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-selectcontenttypeplugin.js
                 cof-universaldiscoverycreateview:
                     requires:
-                        - 'base'
-                        - 'node'
                         - 'ez-universaldiscoverymethodbaseview'
+                        - 'cof-contentcreationview'
                         - 'universaldiscoverycreateview-ez-template'
                     path: %ezcontentonthefly.public_dir%/js/views/cof-universaldiscoverycreateview.js
                 universaldiscoverycreateview-ez-template:
                     type: 'template'
                     path: %ezcontentonthefly.public_dir%/templates/blank.hbt
+                cof-contentcreationview:
+                    requires:
+                        - 'cof-contenttypeselectorview'
+                        - 'ez-templatebasedview'
+                        - 'contentcreationview-ez-template'
+                    path: %ezcontentonthefly.public_dir%/js/views/cof-contentcreationview.js
+                contentcreationview-ez-template:
+                    type: 'template'
+                    path: %ezcontentonthefly.public_dir%/templates/content-creation.hbt
+                cof-contenttypeselectorview:
+                    requires:
+                        - 'ez-contenttypeselectorview'
+                        - 'contenttypeselectorview-ez-template'
+                    path: %ezcontentonthefly.public_dir%/js/views/cof-contenttypeselectorview.js
+                contenttypeselectorview-ez-template:
+                    type: 'template'
+                    path: %ez_platformui.public_dir%/templates/contenttypeselector.hbt

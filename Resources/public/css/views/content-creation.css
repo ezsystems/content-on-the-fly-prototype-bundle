@@ -1,0 +1,100 @@
+/**
+ * Copyright (C) eZ Systems AS. All rights reserved.
+ * For full copyright and license information view LICENSE file distributed with this source code.
+ */
+
+.ez-view-contentcreationview {
+    width: 25rem;
+    height: 42rem;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.ez-view-contentcreationview.on-page-two .cof-content-creation__page-one,
+.ez-view-contentcreationview.on-page-two .cof-content-creation__page-two {
+    transform: translateX(-100%);
+}
+
+.ez-view-contentcreationview .cof-content-creation__header__headline {
+    margin: 0;
+}
+
+.ez-view-contentcreationview .cof-content-creation__content {
+    display: flex;
+    height: 34rem;
+    overflow: hidden;
+}
+
+.ez-view-contentcreationview .cof-content-creation__page-one,
+.ez-view-contentcreationview .cof-content-creation__page-two {
+    flex: 1 0 100%;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.ez-view-contentcreationview .cof-content-creation__header {
+    margin-bottom: .5rem;
+}
+
+.ez-view-contentcreationview .cof-content-creation__header__list {
+    padding-left: 0;
+    margin: 0;
+}
+
+.ez-view-contentcreationview .cof-content-creation__header__text {
+    padding-left: 2rem;
+    position: relative;
+    margin-bottom: .5rem;
+}
+
+.ez-view-contentcreationview .cof-content-creation__content-type-selector {
+    padding: .5rem;
+    min-height: 15rem;
+    position: relative;
+}
+
+.ez-view-contentcreationview .cof-content-creation__location--title {
+    margin: 1rem 0;
+}
+
+.ez-view-contentcreationview .cof-content-creation__location {
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.ez-view-contentcreationview .cof-btn--change-content-type {
+    margin-top: .3rem;
+    position: relative;
+    padding: .1rem 2rem .1rem .5rem;
+}
+
+.ez-view-contentcreationview .cof-btn--edit-location {
+    margin: .5rem auto;
+}
+
+.ez-view-contentcreationview .cof-btn--select {
+    position: relative;
+}
+
+.ez-view-contentcreationview .cof-content-creation__separator {
+    display: block;
+    margin: 1rem auto;
+    width: 2rem;
+    position: relative;
+}
+
+.ez-view-contentcreationview .cof-btn--next,
+.ez-view-contentcreationview .cof-btn--finish {
+    float: right;
+}
+
+.ez-view-contentcreationview.on-page-two .cof-btn--next,
+.ez-view-contentcreationview .cof-btn--back,
+.ez-view-contentcreationview .cof-btn--finish {
+    display: none;
+}
+
+.ez-view-contentcreationview.on-page-two .cof-btn--back,
+.ez-view-contentcreationview.on-page-two .cof-btn--finish {
+    display: inline-block;
+}

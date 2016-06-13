@@ -1,0 +1,168 @@
+/**
+ * Copyright (C) eZ Systems AS. All rights reserved.
+ * For full copyright and license information view LICENSE file distributed with this source code.
+ */
+
+.ez-view-contentcreationview {
+    text-align: left;
+}
+
+.ez-view-contentcreationview .cof-content-creation__header {
+    border-bottom: 1px #000 solid;
+}
+
+.ez-view-contentcreationview .cof-content-creation__header__list {
+    list-style: none;
+}
+
+.ez-view-contentcreationview .cof-btn--change-content-type {
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+.ez-view-contentcreationview .cof-btn--change-content-type:before,
+.ez-view-contentcreationview .cof-btn--change-content-type:after {
+    content: "";
+    width: 1px;
+    height: 1rem;
+    background: #aaa;
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+}
+
+.ez-view-contentcreationview .cof-btn--change-content-type:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.ez-view-contentcreationview .cof-btn--change-content-type:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.ez-view-contentcreationview .cof-content-creation__header__text {
+    line-height: 1.5rem;
+    color: #aaa;
+}
+
+.ez-view-contentcreationview .cof-content-creation__header__text:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #aaa;
+    color: #fff;
+    border-radius: 50%;
+    line-height: 1.5rem;
+    text-align: center;
+}
+
+.ez-view-contentcreationview .cof-content-creation__header__text:first-child:before {
+    content: '1';
+}
+
+.ez-view-contentcreationview .cof-content-creation__header__text:last-child:before {
+    content: '2';
+}
+
+.ez-view-contentcreationview .cof-content-creation__header__text--highlighted {
+    color: #000;
+}
+
+.ez-view-contentcreationview .cof-content-creation__header__text--highlighted:before {
+    background: #3FB499;
+}
+
+.ez-view-contentcreationview .cof-content-creation__page-one,
+.ez-view-contentcreationview .cof-content-creation__page-two {
+    transition: transform .3s cubic-bezier(.25,.8,.25,1);
+}
+
+.ez-view-contentcreationview .cof-content-creation__content-type-selector {
+    background: #fdfdfd;
+}
+
+.ez-view-contentcreationview .is-loading:before {
+    content: "";
+    height: 100%;
+    width: 100%;
+    background: #fdfdfd;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+}
+
+.ez-view-contentcreationview .is-loading:after {
+    content: '\f110';
+    color: #3FB499;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-family: 'studiofont';
+    animation: spin .7s infinite linear;
+}
+
+.ez-view-contentcreationview .cof-btn--edit-location {
+    background: transparent;
+    border: 3px #4A90E2 solid;
+    color: #4A90E2;
+}
+
+.ez-view-contentcreationview .cof-content-creation__separator {
+    text-align: center;
+}
+
+.ez-view-contentcreationview .cof-content-creation__separator:before,
+.ez-view-contentcreationview .cof-content-creation__separator:after,
+.ez-view-contentcreationview .cof-btn--select:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.ez-view-contentcreationview .cof-content-creation__separator:before,
+.ez-view-contentcreationview .cof-content-creation__separator:after {
+    width: 7.5rem;
+    height: 1px;
+    background: #000;
+}
+
+.ez-view-contentcreationview .cof-content-creation__separator:before {
+    left: -7.5rem;
+}
+
+.ez-view-contentcreationview .cof-content-creation__separator:after {
+    right: -7.5rem;
+}
+
+.ez-view-contentcreationview .cof-btn--select {
+    text-align: left;
+    background: #bbb;
+    color: #888;
+}
+
+.ez-view-contentcreationview .cof-btn--select:after {
+    right: .7rem;
+    width: 0;
+    height: 0;
+    border-top: 6px solid #888;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+}
+
+.ez-view-contentcreationview .cof-pagination .cof-btn {
+    text-transform: uppercase;
+    color: #fff;
+    background: #3FB499;
+}
+
+.ez-view-contentcreationview .cof-pagination .cof-btn--disabled {
+    background: #bbb;
+}
+
+.ez-view-contentcreationview .ez-selection-filter,
+.ez-view-contentcreationview .ez-selection-filter .ez-selection-filter-item-selected {
+    background: #3fb399;
+}

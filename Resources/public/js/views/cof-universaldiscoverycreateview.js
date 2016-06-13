@@ -21,8 +21,42 @@ YUI.add('cof-universaldiscoverycreateview', function (Y) {
      * @extends eZ.UniversalDiscoveryMethodBaseView
      */
     Y.cof.UniversalDiscoveryCreateView = Y.Base.create('UniversalDiscoveryCreateView', Y.eZ.UniversalDiscoveryMethodBaseView, [], {
+        initializer: function () {
+            this.on('visibleChange', this._toggleContentCreationVisibility, this);
+        },
+
+        render: function () {
+            this.get('container').append(this.get('contentCreationView').render().get('container'));
+
+            return this;
+        },
+
+        /**
+         * Toggles the content creation visibility.
+         *
+         * @protected
+         * @method _toggleContentCreationVisibility
+         * @param event {Object} event facade
+         */
+        _toggleContentCreationVisibility: function (event) {
+            this.get('contentCreationView').set('displayed', event.newVal);
+        },
     }, {
         ATTRS: {
+            /**
+             * Holds the content creation view instance
+             *
+             * @attribute contentCreationView
+             * @type cof.ContentCreationView
+             */
+            contentCreationView: {
+                valueFn: function () {
+                    return new Y.cof.ContentCreationView({
+                        bubbleTargets: this
+                    });
+                }
+            },
+
             /**
              * Flag indicating whether the user is able to select multiple
              * content items.

@@ -1,0 +1,23 @@
+/**
+ * Copyright (C) eZ Systems AS. All rights reserved.
+ * For full copyright and license information view LICENSE file distributed with this source code.
+ */
+
+.cof-btn {
+    display: block;
+    padding: .5rem 1rem;
+    border: none;
+}
+
+.cof-btn--big {
+    width: 100%;
+}
+
+.cof-btn--rounded {
+    border-radius: 5px;
+}
+
+.cof-btn--disabled {
+    background: #bbb;
+    cursor: not-allowed;
+}
