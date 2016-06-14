@@ -11,6 +11,15 @@ system:
                         - 'cof-universaldiscoverycreateview'
                     dependencyOf: ['ez-universaldiscoveryview']
                     path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-universaldiscoveryplugin.js
+                cof-createcontent-universaldiscoveryserviceplugin:
+                    requires:
+                        - 'plugin'
+                        - 'base'
+                        - 'node'
+                        - 'ez-pluginregistry'
+                        - 'ez-viewservicebaseplugin'
+                    dependencyOf: ['ez-universaldiscoveryviewservice']
+                    path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-universaldiscoveryserviceplugin.js
                 cof-selectcontenttypeplugin:
                     requires: ['ez-contentcreateplugin']
                     dependencyOf: ['ez-universaldiscoveryviewservice']
