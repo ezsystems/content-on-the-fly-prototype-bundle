@@ -22,6 +22,7 @@
         <button class="cof-btn cof-btn--big cof-btn--rounded cof-btn--edit-location">Select Location</button>
         <span class="cof-content-creation__separator">or</span>
         <button class="cof-btn cof-btn--big cof-btn--select">Select from Suggested Locations</button>
+        <ul class="cof-content-creation__suggested-locations cof-content-creation__suggested-locations--is-hidden"></ul>
     </div>
 </div>
 <div class="cof-pagination">
