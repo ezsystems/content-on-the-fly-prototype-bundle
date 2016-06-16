@@ -14,10 +14,13 @@ use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\Core\REST\Server\Controller;
 use eZ\Publish\Core\REST\Server\Values;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\HttpFoundation\Request;
 
 class LocationController extends Controller
 {
+    use LoggerAwareTrait;
+
     protected $locationService;
 
     protected $contentTypeService;
@@ -26,20 +29,16 @@ class LocationController extends Controller
 
     protected $configuration;
 
-    protected $logger;
-
     public function __construct(
         Repository $repository,
         LocationService $locationService,
         ContentTypeService $contentTypeService,
-        ContentService $contentService,
-        LoggerInterface $logger)
+        ContentService $contentService)
     {
         $this->repository = $repository;
         $this->locationService = $locationService;
         $this->contentTypeService = $contentTypeService;
         $this->contentService = $contentService;
-        $this->logger = $logger;
     }
 
     public function suggestedAction(Request $request, $content)
@@ -74,7 +73,9 @@ class LocationController extends Controller
                 // Skip locations user is not authorized to use
             } catch (NotFoundException $e) {
                 // Skip and log invalid locations
-                $this->logger->warning("Suggested location not found (content type: {$content}, location id: {$locationId}). Exception: " . $e->getMessage());
+                if ($this->logger) {
+                    $this->logger->warning("Suggested location not found (content type: {$content}, location id: {$locationId}). Exception: " . $e->getMessage());
+                }
             }
         }
 
