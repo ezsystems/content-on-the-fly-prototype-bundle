@@ -9,5 +9,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class EzSystemsEzContentOnTheFlyBundle extends Bundle
 {
-    protected $name = 'eZContentOnTheFlyBundle';
+    protected $name = 'ContentOnTheFlyBundle';
 }

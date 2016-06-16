@@ -1,0 +1,12 @@
+system:
+   default:
+       css:
+           files:
+               - '@ContentOnTheFlyBundle/Resources/public/css/modules/buttons.css'
+               - '@ContentOnTheFlyBundle/Resources/public/css/views/general.css'
+               - '@ContentOnTheFlyBundle/Resources/public/css/views/content-creation.css'
+               - '@ContentOnTheFlyBundle/Resources/public/css/views/discovery-create.css'
+               - '@ContentOnTheFlyBundle/Resources/public/css/views/content-type.css'
+               - '@ContentOnTheFlyBundle/Resources/public/css/theme/views/content-creation.css'
+               - '@ContentOnTheFlyBundle/Resources/public/css/theme/views/discovery-create.css'
+               - '@ContentOnTheFlyBundle/Resources/public/css/theme/views/content-type.css'

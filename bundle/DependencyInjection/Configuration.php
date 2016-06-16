@@ -6,14 +6,15 @@
 namespace EzSystems\EzContentOnTheFlyBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
+use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
 
-class Configuration implements ConfigurationInterface
+
+class Configuration extends SiteAccessConfiguration
 {
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('ez_contentonthefly');
+        $rootNode = $treeBuilder->root('content_on_the_fly');
 
         return $treeBuilder;
     }

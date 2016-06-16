@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 
-class eZContentOnTheFlyExtension extends Extension implements PrependExtensionInterface
+class ContentOnTheFlyExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -22,8 +22,8 @@ class eZContentOnTheFlyExtension extends Extension implements PrependExtensionIn
 
     public function prepend(ContainerBuilder $container)
     {
-        $container->prependExtensionConfig('assetic', array('bundles' => array('eZContentOnTheFlyBundle')));
-
+        $container->prependExtensionConfig('assetic', array('bundles' => array('ContentOnTheFlyBundle')));
+        
         $this->prependYui($container);
         $this->prependCss($container);
     }
@@ -31,7 +31,7 @@ class eZContentOnTheFlyExtension extends Extension implements PrependExtensionIn
     private function prependYui(ContainerBuilder $container)
     {
         // Directory where public resources are stored (relative to web/ directory).
-        $container->setParameter('ezcontentonthefly.public_dir', 'bundles/ezcontentonthefly');
+        $container->setParameter('ezcontentonthefly.public_dir', 'bundles/contentonthefly');
         $yuiConfigFile = __DIR__ . '/../Resources/config/yui.yml';
         $config = Yaml::parse(file_get_contents($yuiConfigFile));
         $container->prependExtensionConfig('ez_platformui', $config);
