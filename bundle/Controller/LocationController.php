@@ -5,6 +5,7 @@
  */
 namespace EzSystems\EzContentOnTheFlyBundle\Controller;
 
+use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\Core\REST\Server\Controller;
 use eZ\Publish\Core\REST\Server\Values;
@@ -35,11 +36,15 @@ class LocationController extends Controller
 
         $suggested = [];
         foreach ($locations as $locationId) {
-            $location = $this->locationService->loadLocation($locationId);
-            $suggested[] = new Values\RestLocation(
-                $location,
-                $this->locationService->getLocationChildCount($location)
-            );
+            try {
+                $location = $this->locationService->loadLocation($locationId);
+                $suggested[] = new Values\RestLocation(
+                    $location,
+                    $this->locationService->getLocationChildCount($location)
+                );
+            } catch (UnauthorizedException $e) {
+                // Skip locations user is not authorized to use
+            }
         }
 
         return new Values\LocationList($suggested, $request->getPathInfo());
