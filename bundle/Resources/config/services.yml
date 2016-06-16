@@ -10,5 +10,5 @@ services:
             - '@ezpublish.api.service.content_type'
             - '@ezpublish.api.service.content'
         calls:
-            - [setConfiguration, ['$content;content_on_the_fly$']]
+            - [setContentConfiguration, ['$content;content_on_the_fly$']]
             - [setLogger, ['@?logger']]

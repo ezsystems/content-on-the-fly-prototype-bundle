@@ -27,7 +27,7 @@ class LocationController extends Controller
 
     protected $contentService;
 
-    protected $configuration;
+    protected $contentConfiguration;
 
     public function __construct(
         Repository $repository,
@@ -43,12 +43,12 @@ class LocationController extends Controller
 
     public function suggestedAction(Request $request, $content)
     {
-        if (!isset($this->configuration[$content]) && $content != 'default') {
+        if (!isset($this->contentConfiguration[$content]) && $content != 'default') {
             $content = 'default';
         }
 
-        if (isset($this->configuration[$content])) {
-            $locations = $this->configuration[$content]['location'];
+        if (isset($this->contentConfiguration[$content])) {
+            $locations = $this->contentConfiguration[$content]['location'];
         } else {
             $locations = [];
         }
@@ -82,8 +82,8 @@ class LocationController extends Controller
         return new Values\LocationList($suggested, $request->getPathInfo());
     }
 
-    public function setConfiguration(array $configuration)
+    public function setContentConfiguration(array $contentConfiguration)
     {
-        $this->configuration = $configuration;
+        $this->contentConfiguration = $contentConfiguration;
     }
 }
