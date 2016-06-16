@@ -5,6 +5,8 @@
  */
 namespace EzSystems\EzContentOnTheFlyBundle\DependencyInjection;
 
+use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Config\Resource\FileResource;
@@ -17,13 +19,22 @@ class ContentOnTheFlyExtension extends Extension implements PrependExtensionInte
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
+
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('parameters.yml');
+        $loader->load('services.yml');
+        $loader->load('default_settings.yml');
+
         $config = $this->processConfiguration($configuration, $configs);
+
+        $processor = new ConfigurationProcessor($container, 'content_on_the_fly');
+        $processor->mapConfigArray('content', $config);
     }
 
     public function prepend(ContainerBuilder $container)
     {
         $container->prependExtensionConfig('assetic', array('bundles' => array('ContentOnTheFlyBundle')));
-        
+
         $this->prependYui($container);
         $this->prependCss($container);
     }
