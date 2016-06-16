@@ -10,8 +10,8 @@
     "license": "GPL-2.0",
     "autoload": {
         "psr-4": {
-            "EzSystems\\ContentOnTheFly\\": "lib",
-            "EzSystems\\ContentOnTheFlyBundle\\": "bundle"
+            "EzSystems\\EzContentOnTheFly\\": "lib",
+            "EzSystems\\EzContentOnTheFlyBundle\\": "bundle"
 	}
     },
     "require": {
