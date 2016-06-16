@@ -6,9 +6,11 @@
 namespace EzSystems\EzContentOnTheFlyBundle\Controller;
 
 use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
+use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\Core\REST\Server\Controller;
 use eZ\Publish\Core\REST\Server\Values;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class LocationController extends Controller
@@ -17,9 +19,12 @@ class LocationController extends Controller
 
     protected $configuration;
 
-    public function __construct(LocationService $locationService)
+    protected $logger;
+
+    public function __construct(LocationService $locationService, LoggerInterface $logger)
     {
         $this->locationService = $locationService;
+        $this->logger = $logger;
     }
 
     public function suggestedAction(Request $request, $content)
@@ -44,6 +49,9 @@ class LocationController extends Controller
                 );
             } catch (UnauthorizedException $e) {
                 // Skip locations user is not authorized to use
+            } catch (NotFoundException $e) {
+                // Skip and log invalid locations
+                $this->logger->warning("Suggested location not found (content type: {$content}, location id: {$locationId}). Exception: " . $e->getMessage());
             }
         }
 
