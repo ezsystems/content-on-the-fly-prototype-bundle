@@ -1,0 +1,9 @@
+parameters:
+    content_on_the_fly.default.content:
+        image:
+            location:
+                - 51    # /Media/Images
+        default:
+            location:
+                - 2     # /Home
+                - 43    # /Media

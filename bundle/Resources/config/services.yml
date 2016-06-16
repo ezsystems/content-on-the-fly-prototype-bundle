@@ -1,0 +1,15 @@
+parameters:
+    contentonthefly.controller.location.class: EzSystems\EzContentOnTheFlyBundle\Controller\LocationController
+
+services:
+    contentonthefly.controller.location:
+        class: '%contentonthefly.controller.location.class%'
+        arguments:
+            - '@ezpublish.api.repository'
+            - '@ezpublish.api.service.location'
+            - '@ezpublish.api.service.content_type'
+            - '@ezpublish.api.service.content'
+        calls:
+            - [setContentConfiguration, ['$content;content_on_the_fly$']]
+            - [setLogger, ['@?logger']]
+            - [setLanguages, ['$languages$']]
