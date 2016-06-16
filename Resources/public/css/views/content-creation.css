@@ -99,3 +99,21 @@
 .ez-view-contentcreationview.on-page-two .cof-btn--finish {
     display: inline-block;
 }
+
+.ez-view-contentcreationview .cof-content-creation__creator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    z-index: 5
+}
+
+.ez-view-contentcreationview .ez-main-content {
+    overflow: auto;
+}
+
+.ez-view-contentcreationview .ez-editactionbar-container {
+    height: 100%;
+}

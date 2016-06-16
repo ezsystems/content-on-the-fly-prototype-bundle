@@ -16,6 +16,8 @@ system:
                         - 'plugin'
                         - 'base'
                         - 'node'
+                        - 'ez-publishdraftplugin'
+                        - 'ez-contentcreateplugin'
                         - 'ez-pluginregistry'
                         - 'ez-viewservicebaseplugin'
                     dependencyOf: ['ez-universaldiscoveryviewservice']
@@ -37,6 +39,7 @@ system:
                     requires:
                         - 'cof-contenttypeselectorview'
                         - 'ez-templatebasedview'
+                        - 'ez-contenteditview'
                         - 'contentcreationview-ez-template'
                     path: %ezcontentonthefly.public_dir%/js/views/cof-contentcreationview.js
                 contentcreationview-ez-template:
