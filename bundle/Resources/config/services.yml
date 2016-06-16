@@ -5,7 +5,10 @@ services:
     contentonthefly.controller.location:
         class: '%contentonthefly.controller.location.class%'
         arguments:
+            - '@ezpublish.api.repository'
             - '@ezpublish.api.service.location'
+            - '@ezpublish.api.service.content_type'
+            - '@ezpublish.api.service.content'
             - '@logger'
         calls:
             - [setConfiguration, ['$content;content_on_the_fly$']]

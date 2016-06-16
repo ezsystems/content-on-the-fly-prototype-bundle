@@ -5,6 +5,9 @@
  */
 namespace EzSystems\EzContentOnTheFlyBundle\Controller;
 
+use eZ\Publish\API\Repository\ContentService;
+use eZ\Publish\API\Repository\ContentTypeService;
+use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
 use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LocationService;
@@ -17,13 +20,25 @@ class LocationController extends Controller
 {
     protected $locationService;
 
+    protected $contentTypeService;
+
+    protected $contentService;
+
     protected $configuration;
 
     protected $logger;
 
-    public function __construct(LocationService $locationService, LoggerInterface $logger)
+    public function __construct(
+        Repository $repository,
+        LocationService $locationService,
+        ContentTypeService $contentTypeService,
+        ContentService $contentService,
+        LoggerInterface $logger)
     {
+        $this->repository = $repository;
         $this->locationService = $locationService;
+        $this->contentTypeService = $contentTypeService;
+        $this->contentService = $contentService;
         $this->logger = $logger;
     }
 
@@ -39,14 +54,22 @@ class LocationController extends Controller
             $locations = [];
         }
 
+        $contentType = $this->contentTypeService->loadContentTypeByIdentifier($content);
+        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, 'eng-GB');
+
         $suggested = [];
         foreach ($locations as $locationId) {
             try {
                 $location = $this->locationService->loadLocation($locationId);
-                $suggested[] = new Values\RestLocation(
-                    $location,
-                    $this->locationService->getLocationChildCount($location)
-                );
+
+                $canUser = $this->repository->canUser('content', 'create', $contentCreateStruct, $location);
+
+                if ($canUser) {
+                    $suggested[] = new Values\RestLocation(
+                        $location,
+                        $this->locationService->getLocationChildCount($location)
+                    );
+                }
             } catch (UnauthorizedException $e) {
                 // Skip locations user is not authorized to use
             } catch (NotFoundException $e) {
