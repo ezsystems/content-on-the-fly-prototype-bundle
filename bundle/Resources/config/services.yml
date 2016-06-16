@@ -12,3 +12,4 @@ services:
         calls:
             - [setContentConfiguration, ['$content;content_on_the_fly$']]
             - [setLogger, ['@?logger']]
+            - [setLanguages, ['$languages$']]

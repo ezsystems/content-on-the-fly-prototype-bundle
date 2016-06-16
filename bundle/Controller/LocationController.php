@@ -29,6 +29,8 @@ class LocationController extends Controller
 
     protected $contentConfiguration;
 
+    protected $languages;
+
     public function __construct(
         Repository $repository,
         LocationService $locationService,
@@ -54,7 +56,7 @@ class LocationController extends Controller
         }
 
         $contentType = $this->contentTypeService->loadContentTypeByIdentifier($content);
-        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, 'eng-GB');
+        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, reset($this->languages));
 
         $suggested = [];
         foreach ($locations as $locationId) {
@@ -85,5 +87,10 @@ class LocationController extends Controller
     public function setContentConfiguration(array $contentConfiguration)
     {
         $this->contentConfiguration = $contentConfiguration;
+    }
+
+    public function setLanguages($languages)
+    {
+        $this->languages = $languages;
     }
 }
