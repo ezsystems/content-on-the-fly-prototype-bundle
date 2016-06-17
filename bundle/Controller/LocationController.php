@@ -43,20 +43,20 @@ class LocationController extends Controller
         $this->contentService = $contentService;
     }
 
-    public function suggestedAction(Request $request, $content)
+    public function suggestedAction(Request $request, $contentTypeIdentifier)
     {
-        if (!isset($this->contentConfiguration[$content]) && $content != 'default') {
-            $content = 'default';
+        $contentType = $this->contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
+        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, reset($this->languages));
+
+        if (!isset($this->contentConfiguration[$contentTypeIdentifier])) {
+            $contentTypeIdentifier = 'default';
         }
 
-        if (isset($this->contentConfiguration[$content])) {
-            $locations = $this->contentConfiguration[$content]['location'];
+        if (isset($this->contentConfiguration[$contentTypeIdentifier])) {
+            $locations = $this->contentConfiguration[$contentTypeIdentifier]['location'];
         } else {
             $locations = [];
         }
-
-        $contentType = $this->contentTypeService->loadContentTypeByIdentifier($content);
-        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, reset($this->languages));
 
         $suggested = [];
         foreach ($locations as $locationId) {
@@ -76,7 +76,7 @@ class LocationController extends Controller
             } catch (NotFoundException $e) {
                 // Skip and log invalid locations
                 if ($this->logger) {
-                    $this->logger->warning("Suggested location not found (content type: {$content}, location id: {$locationId}). Exception: " . $e->getMessage());
+                    $this->logger->warning("Suggested location not found (content config: {$contentTypeIdentifier}, location id: {$locationId}). Exception: " . $e->getMessage());
                 }
             }
         }
