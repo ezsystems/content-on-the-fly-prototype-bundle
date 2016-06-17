@@ -45,7 +45,10 @@ class LocationController extends Controller
 
     public function suggestedAction(Request $request, $content)
     {
-        if (!isset($this->contentConfiguration[$content]) && $content != 'default') {
+        $contentType = $this->contentTypeService->loadContentTypeByIdentifier($content);
+        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, reset($this->languages));
+
+        if (!isset($this->contentConfiguration[$content])) {
             $content = 'default';
         }
 
@@ -54,9 +57,6 @@ class LocationController extends Controller
         } else {
             $locations = [];
         }
-
-        $contentType = $this->contentTypeService->loadContentTypeByIdentifier($content);
-        $contentCreateStruct = $this->contentService->newContentCreateStruct($contentType, reset($this->languages));
 
         $suggested = [];
         foreach ($locations as $locationId) {

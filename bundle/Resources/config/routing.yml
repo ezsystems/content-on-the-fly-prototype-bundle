@@ -2,5 +2,4 @@ contentonthefly.location_controller.suggested:
     path: /contentonthefly/locations/{content}
     defaults:
         _controller: contentonthefly.controller.location:suggestedAction
-        content: 'default'
     methods: [GET]
