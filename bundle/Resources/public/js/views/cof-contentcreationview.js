@@ -73,6 +73,7 @@ YUI.add('cof-contentcreationview', function (Y) {
 
             this.on('displayedChange', this._getContentTypes, this);
             this.on('contentTypeGroupsChange', this._renderContentTypeSelector, this);
+            this.on('contentTypeGroupsChange', this._preselectContentType, this);
             this.on('*:itemSelected', this._enableNextButton, this);
             this.on('*:itemSelected', this._toggleTooltip, this);
             this.on('selectedLocationChange', this._updateSelectedLocation, this);
@@ -80,6 +81,7 @@ YUI.add('cof-contentcreationview', function (Y) {
             this.on('*:closeView', this._hideCreateContentView, this, false);
             this.on('suggestedLocationsChange', this._setDefaultLocation, this);
             this.on('suggestedLocationsChange', this._renderSuggestedLocations, this);
+            this.on('contentTypeIdentifierChange', this._goToSecondPage, this);
 
             this.get('contentTypeSelectorView').on('selectedContentTypeChange', this._fetchSuggestedLocations, this);
         },
@@ -131,7 +133,10 @@ YUI.add('cof-contentcreationview', function (Y) {
          * @method _enableFinishButton
          */
         _enableFinishButton: function () {
-                this.get('container').one(SELECTOR_FINISH_BUTTON).removeClass(CLASS_BUTTON_DISABLED);
+            var container = this.get('container');
+
+            container.removeClass(CLASS_LOADING);
+            container.one(SELECTOR_FINISH_BUTTON).removeClass(CLASS_BUTTON_DISABLED);
         },
 
         /**
@@ -144,8 +149,9 @@ YUI.add('cof-contentcreationview', function (Y) {
         _getContentTypes: function (event) {
             var eventNewVal = event.newVal,
                 container = this.get('container'),
+                contentTypeContainer = container.one(SELECTOR_CONTENT_TYPE),
+                nextButton = container.one(SELECTOR_NEXT_BUTTON),
                 restoreFormState = this.get('restoreFormState');
-
 
             if (!eventNewVal && !restoreFormState) {
                 this._resetFormState();
@@ -155,14 +161,16 @@ YUI.add('cof-contentcreationview', function (Y) {
                 this.set('restoreFormState', false);
 
                 return;
-            } else if (restoreFormState) {
+            } else if (restoreFormState || this.get('fetchContentTypesPrevented')) {
                 return;
             }
 
             this.get('contentTypeSelectorView').hideTooltip();
 
-            container.one(SELECTOR_CONTENT_TYPE).addClass(CLASS_LOADING);
-            container.one(SELECTOR_NEXT_BUTTON).addClass(CLASS_BUTTON_DISABLED);
+            if (contentTypeContainer && nextButton) {
+                contentTypeContainer.addClass(CLASS_LOADING);
+                nextButton.addClass(CLASS_BUTTON_DISABLED);
+            }
 
             /**
              * Fetches the content types data.
@@ -246,6 +254,8 @@ YUI.add('cof-contentcreationview', function (Y) {
              *
              */
             this.fire('openUniversalDiscoveryWidget');
+
+            this.set('fetchContentTypesPrevented', true);
         },
 
         /**
@@ -279,6 +289,8 @@ YUI.add('cof-contentcreationview', function (Y) {
             this.fire('setParentLocation', {selectedLocation: eventNewVal.location});
 
             this._enableFinishButton();
+
+            this.set('fetchContentTypesPrevented', false);
         },
 
         /**
@@ -484,6 +496,55 @@ YUI.add('cof-contentcreationview', function (Y) {
 
             this._toggleSuggestedLocations();
         },
+
+        /**
+         * Changes page when the content type is preselected.
+         *
+         * @method _goToSecondPage
+         * @protected
+         * @param event {Object} event facade
+         */
+        _goToSecondPage: function (event) {
+            if (!event.newVal) {
+                return;
+            }
+
+            this.get('container').addClass(CLASS_LOADING);
+
+            this.set('activePage', 0);
+            this._changeFormPage();
+        },
+
+        /**
+         * Sets the preselected content type.
+         *
+         * @method _preselectContentType
+         * @protected
+         * @param event {Object} event facade
+         */
+        _preselectContentType: function (event) {
+            var preselectedContentType = this.get('contentTypeIdentifier'),
+                contentTypeGroups = event.newVal,
+                contentTypeSelector = this.get('contentTypeSelectorView');
+
+            contentTypeGroups.forEach(Y.bind(function (contentTypeGroup) {
+                contentTypeGroup.get('contentTypes').forEach(Y.bind(function (contentType) {
+                    if (preselectedContentType === contentType.get('identifier')) {
+                        contentTypeSelector.set('selectedContentType', contentType);
+
+                        this._enableNextButton({text: contentType.get('names')[contentType.get('mainLanguageCode')]});
+
+                        /**
+                         * Fired to prepare content model for content type.
+                         * Listened in the eZS.Plugin.SelectCreateContent
+                         *
+                         * @param contentType {Object} the content type model
+                         */
+                        contentTypeSelector.fire('prepareContentModel', {contentType: contentType});
+                    }
+                }, this));
+            }, this));
+        },
     }, {
         ATTRS: {
             /**
@@ -603,6 +664,17 @@ YUI.add('cof-contentcreationview', function (Y) {
              * @default false
              */
             redirectionPrevented: {
+                value: false
+            },
+
+            /**
+             * Should prevent from getting content types?
+             *
+             * @attribute fetchContentTypesPrevented
+             * @type Boolean
+             * @default false
+             */
+            fetchContentTypesPrevented: {
                 value: false
             },
         }

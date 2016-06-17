@@ -33,6 +33,7 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
             host.on('*:restoreDiscoveryWidget', this._restoreDiscoveryWidgetState, this);
             host.on('*:contentLoaded', this._closeDiscoveryWidget, this);
             host.on('activeChange', this._toggleTabCreateVisibility, this);
+            host.on('contentTypeIdentifierChange', this._setContentTypeIdentifier, this);
         },
 
         /**
@@ -95,6 +96,21 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
             host.fire('contentDiscovered', {
                 selection: host.get('selection'),
             });
+        },
+
+        /**
+         * Sets content type identifier.
+         *
+         * @protected
+         * @method _setContentTypeIdentifier
+         * @param event {Object} event facade
+         */
+        _setContentTypeIdentifier: function (event) {
+            var eventNewVal = event.newVal;
+
+            if (eventNewVal && eventNewVal !== event.prevVal) {
+                this.get('tabCreateView').get('contentCreationView').set('contentTypeIdentifier', eventNewVal);
+            }
         },
     }, {
         NS: 'createContentUniversalDiscoveryWidgetPlugin',
