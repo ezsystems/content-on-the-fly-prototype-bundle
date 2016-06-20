@@ -22,7 +22,7 @@ Platform UI Content on the Fly feature
   ```yml
   _contentOnTheFly:
       resource: "@ContentOnTheFlyBundle/Resources/config/routing.yml"
-      prefix:   %ezpublish_rest.path_prefix%
+      prefix:   '%ezpublish_rest.path_prefix%'
   ```
 
 4. Clear cache and setup assets with `$ composer run-script post-update-cmd`
