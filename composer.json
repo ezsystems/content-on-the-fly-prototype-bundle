@@ -15,7 +15,7 @@
 	}
     },
     "require": {
-    	"ezsystems/platform-ui-bundle": "^1.3",
+    	"ezsystems/platform-ui-bundle": "^1.4@beta",
         "ezsystems/ezpublish-kernel": "^6.3"
     },
     "extra": {
