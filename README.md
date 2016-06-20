@@ -3,7 +3,7 @@ Platform UI Content on the Fly feature
 
 ## Install
 
-1. Install via `composer require "ezsystems/content-on-the-fly-prototype ^0.1.0"`
+1. Install via `composer require ezsystems/content-on-the-fly-prototype`
 2. Enable by adding `new EzSystems\EzContentOnTheFlyBundle\EzSystemsEzContentOnTheFlyBundle()` to `app/AppKernel.php`.
 3. Setup routing by adding bundle configuration to `app/config/routing.yml`:
 
