@@ -3,17 +3,32 @@ Platform UI Content on the Fly feature
 
 ## Install
 
-1. Install via `composer require ezsystems/content-on-the-fly-prototype`
-2. Enable by adding `new EzSystems\EzContentOnTheFlyBundle\EzSystemsEzContentOnTheFlyBundle()` to `app/AppKernel.php`.
+1. From your eZ Platform installation, run composer:
+
+  ```sh
+  $ composer require ezsystems/content-on-the-fly-prototype
+  ```
+
+2. Enable the bundle by adding:
+
+  ```php
+  new EzSystems\EzContentOnTheFlyBundle\EzSystemsEzContentOnTheFlyBundle()
+  ```
+
+  to `app/AppKernel.php`.
+
 3. Setup routing by adding bundle configuration to `app/config/routing.yml`:
 
-    ```yml
-    _contentOnTheFly:
-        resource: "@ContentOnTheFlyBundle/Resources/config/routing.yml"
-        prefix:   %ezpublish_rest.path_prefix%
-    ```
-4. Clear cache and setup assets with `composer run-script post-update-cmd`
-  - *If you use prod env make sure that is set with `export SYMFONY_ENV=prod` first.*
+  ```yml
+  _contentOnTheFly:
+      resource: "@ContentOnTheFlyBundle/Resources/config/routing.yml"
+      prefix:   %ezpublish_rest.path_prefix%
+  ```
+
+4. Clear cache and setup assets with `$ composer run-script post-update-cmd`
+
+   *(if you use prod env make sure that is set with `$ export SYMFONY_ENV=prod` first)*.
+
 
 ## Configuration
 Example application configuration (`app/config/config.yml`):
