@@ -20,12 +20,19 @@ system:
                         - 'ez-contentcreateplugin'
                         - 'ez-pluginregistry'
                         - 'ez-viewservicebaseplugin'
-                    dependencyOf: ['ez-universaldiscoveryviewservice']
+                    dependencyOf: ['ez-universaldiscoveryviewservice', ez-dashboardblocksviewservice]
                     path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-universaldiscoveryserviceplugin.js
                 cof-selectcontenttypeplugin:
                     requires: ['ez-contentcreateplugin', 'ez-locationmodel']
-                    dependencyOf: ['ez-universaldiscoveryviewservice']
+                    dependencyOf: ['ez-universaldiscoveryviewservice', 'ez-dashboardblocksviewservice']
                     path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-selectcontenttypeplugin.js
+                cof-createcontent-dashboardblocksplugin:
+                    requires:
+                        - 'plugin'
+                        - 'ez-pluginregistry'
+                        - 'cof-createcontentbuttonview'
+                    dependencyOf: ['ez-dashboardblocksview']
+                    path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-dashboardblocksplugin.js
                 cof-universaldiscoverycreateview:
                     requires:
                         - 'ez-universaldiscoverymethodbaseview'
@@ -55,3 +62,21 @@ system:
                 contenttypeselectorview-ez-template:
                     type: 'template'
                     path: %ez_platformui.public_dir%/templates/contenttypeselector.hbt
+                cof-createcontentbuttonview:
+                    requires:
+                        - 'ez-templatebasedview'
+                        - 'cof-createcontentpopupview'
+                        - 'createcontentbuttonview-ez-template'
+                    path: %ezcontentonthefly.public_dir%/js/views/cof-createcontentbuttonview.js
+                createcontentbuttonview-ez-template:
+                    type: 'template'
+                    path: %ezcontentonthefly.public_dir%/templates/create-content-button.hbt
+                cof-createcontentpopupview:
+                    requires:
+                        - 'ez-templatebasedview'
+                        - 'cof-contentcreationview'
+                        - 'createcontentpopupview-ez-template'
+                    path: %ezcontentonthefly.public_dir%/js/views/cof-createcontentpopupview.js
+                createcontentpopupview-ez-template:
+                    type: 'template'
+                    path: %ezcontentonthefly.public_dir%/templates/create-content-popup.hbt

@@ -21,3 +21,46 @@
     background: #bbb;
     cursor: not-allowed;
 }
+
+.cof-btn.cof-btn--create {
+    text-transform: uppercase;
+    color: #fff;
+    font-size: .875rem;
+    font-weight: 700;
+    background: #3FB499;
+    padding: .7rem 2rem .7rem 2.6rem;
+    position: relative;
+}
+
+.cof-btn--create:before {
+    color: #fff;
+    font-family: "ez-platformui-icomoon";
+    content: "\E61D";
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+}
+
+.cof-btn--close {
+    background: none;
+}
+
+.cof-btn--close:before,
+.cof-btn--close:after {
+    content: '';
+    width: 1px;
+    height: 100%;
+    background: #aaa;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.cof-btn--close:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.cof-btn--close:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
