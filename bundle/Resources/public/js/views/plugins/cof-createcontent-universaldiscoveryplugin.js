@@ -106,10 +106,10 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
          * @param event {Object} event facade
          */
         _setContentTypeIdentifier: function (event) {
-            var eventNewVal = event.newVal;
+            var contentTypeIdentifier = event.newVal;
 
-            if (eventNewVal && eventNewVal !== event.prevVal) {
-                this.get('tabCreateView').get('contentCreationView').set('contentTypeIdentifier', eventNewVal);
+            if (contentTypeIdentifier && contentTypeIdentifier !== event.prevVal) {
+                this.get('tabCreateView').get('contentCreationView').set('contentTypeIdentifier', contentTypeIdentifier);
             }
         },
     }, {
