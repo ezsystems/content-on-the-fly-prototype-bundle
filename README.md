@@ -60,3 +60,21 @@ parameters:
                 - 2     # /Home
                 - 43    # /Media
 ```
+
+## Preselected content type
+To set the content type you have to provide 'contentTypeIdentifier' in the config of the 'contentDiscover' event.
+Example:
+```javascript
+/**
+* ...
+* @param config.visibleMethod {String} which tab should be open. Default: 'browse', possible values: 'browse', 'search', 'create'
+* @param config.contentTypeIdentifier {String} content type identifier. Default: none, example values: 'image', 'blog', 'article', 'blog_post'
+*/
+app.fire('contentDiscover', {
+    config: {
+        // ...
+        visibleMethod: 'create',
+        contentTypeIdentifier: 'image'
+    }
+});
+```
