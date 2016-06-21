@@ -117,3 +117,20 @@
 .ez-view-contentcreationview .ez-editactionbar-container {
     height: 100%;
 }
+
+.ez-view-contentcreationview .cof-content-creation__suggested-locations {
+    margin: 0;
+    padding: 0;
+    transform: translateY(-2rem) scaleY(1);
+    transform-origin: top;
+    overflow-y: auto;
+    max-height: 12rem;
+}
+
+.ez-view-contentcreationview .cof-content-creation__suggested-locations--is-hidden {
+    transform: translateY(-2rem) scaleY(0);
+}
+
+.ez-view-contentcreationview .cof-content-creation__suggested-locations__item {
+    padding: .3rem .5rem;
+}

@@ -23,7 +23,7 @@ system:
                     dependencyOf: ['ez-universaldiscoveryviewservice']
                     path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-universaldiscoveryserviceplugin.js
                 cof-selectcontenttypeplugin:
-                    requires: ['ez-contentcreateplugin']
+                    requires: ['ez-contentcreateplugin', 'ez-locationmodel']
                     dependencyOf: ['ez-universaldiscoveryviewservice']
                     path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-selectcontenttypeplugin.js
                 cof-universaldiscoverycreateview:
@@ -37,6 +37,8 @@ system:
                     path: %ezcontentonthefly.public_dir%/templates/blank.hbt
                 cof-contentcreationview:
                     requires:
+                        - 'template-micro'
+                        - 'event-outside'
                         - 'cof-contenttypeselectorview'
                         - 'ez-templatebasedview'
                         - 'ez-contenteditview'

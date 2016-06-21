@@ -15,22 +15,29 @@ YUI.add('cof-contentcreationview', function (Y) {
     var CLASS_HIDDEN = 'cof-is-hidden',
         CLASS_LOADING = 'is-loading',
         CLASS_CONTENT_CREACTION = 'cof-content-creation',
+        CLASS_TOOLTIP = CLASS_CONTENT_CREACTION + '__tooltip',
         CLASS_BUTTON = 'cof-btn',
         CLASS_BUTTON_DISABLED = CLASS_BUTTON + '--disabled',
+        CLASS_BUTTON_SUGGESTED = CLASS_BUTTON + '--select',
         CLASS_ON_PAGE_TWO = 'on-page-two',
+        CLASS_SUGGESTED_LOCATIONS_ITEM = CLASS_CONTENT_CREACTION + '__suggested-locations__item',
+        CLASS_SUGGESTED_LOCATIONS_HIDDEN = CLASS_CONTENT_CREACTION + '__suggested-locations--is-hidden',
         SELECTOR_CONTENT_CREACTION = '.' + CLASS_CONTENT_CREACTION,
         SELECTOR_BUTTON = '.' + CLASS_BUTTON,
         SELECTOR_NEXT_BUTTON = SELECTOR_BUTTON + '--next',
         SELECTOR_BACK_BUTTON = SELECTOR_BUTTON + '--back',
         SELECTOR_FINISH_BUTTON = SELECTOR_BUTTON + '--finish',
+        SELECTOR_SUGGESTED_BUTTON = SELECTOR_BUTTON + '--select',
         SELECTOR_CONTENT_TYPE =SELECTOR_CONTENT_CREACTION +  '__content-type-selector',
         SELECTOR_CHANGE_CONTENT_TYPE = SELECTOR_BUTTON + '--change-content-type',
         SELECTOR_ITEM_SELECTED = '.ez-selection-filter-item-selected',
-        TOOLTIP = '<div class="cof-content-creation__tooltip cof-is-hidden"></div>',
+        SELECTOR_SUGGESTED_LOCATIONS = SELECTOR_CONTENT_CREACTION + '__suggested-locations',
+        SELECTOR_SUGGESTED_ITEM = SELECTOR_SUGGESTED_LOCATIONS + '__item',
+        ATTR_DESCRIPTION = 'data-description',
+        ATTR_ID = 'data-id',
         SELECTOR_EDIT_LOCATION_BUTTON = SELECTOR_BUTTON +  '--edit-location',
         SELECTOR_LOCATION = SELECTOR_CONTENT_CREACTION + '__location',
         SELECTOR_CONTENT_CREATOR = SELECTOR_CONTENT_CREACTION + '__creator',
-        ATTR_DESCRIPTION = 'data-description',
         ATTR_ACTION = 'data-action',
         SELECTOR_ACTION = '[' + ATTR_ACTION + ']',
         TEXT_PUBLISH = 'publish',
@@ -41,6 +48,8 @@ YUI.add('cof-contentcreationview', function (Y) {
     EVENTS[SELECTOR_FINISH_BUTTON] = {'tap': '_renderCreateContent'};
     EVENTS[SELECTOR_CHANGE_CONTENT_TYPE] = {'tap': '_changeFormPage'};
     EVENTS[SELECTOR_EDIT_LOCATION_BUTTON] = {'tap': '_openDiscoveryWidget'};
+    EVENTS[SELECTOR_SUGGESTED_BUTTON] = {'tap': '_toggleSuggestedLocations'};
+    EVENTS[SELECTOR_SUGGESTED_ITEM] = {'tap': '_selectSuggestedLocations'};
 
     /**
      * The Content Creation view
@@ -54,6 +63,14 @@ YUI.add('cof-contentcreationview', function (Y) {
         events: EVENTS,
 
         initializer: function () {
+            /**
+             * The click outside suggested locations event handler
+             *
+             * @property _clickOutsideSuggestedLocationsHandler
+             * @protected
+             */
+            this._clickOutsideSuggestedLocationsHandler = null;
+
             this.on('displayedChange', this._getContentTypes, this);
             this.on('contentTypeGroupsChange', this._renderContentTypeSelector, this);
             this.on('*:itemSelected', this._enableNextButton, this);
@@ -61,6 +78,10 @@ YUI.add('cof-contentcreationview', function (Y) {
             this.on('selectedLocationChange', this._updateSelectedLocation, this);
             this.on('*:contentLoaded', this._hideCreateContentView, this, true);
             this.on('*:closeView', this._hideCreateContentView, this, false);
+            this.on('suggestedLocationsChange', this._setDefaultLocation, this);
+            this.on('suggestedLocationsChange', this._renderSuggestedLocations, this);
+
+            this.get('contentTypeSelectorView').on('selectedContentTypeChange', this._fetchSuggestedLocations, this);
         },
 
         render: function () {
@@ -171,11 +192,15 @@ YUI.add('cof-contentcreationview', function (Y) {
          */
         _renderContentTypeSelector: function (event) {
             var selectorContainer = this.get('container').one(SELECTOR_CONTENT_TYPE),
-                contentTypeSelectorView = this.get('contentTypeSelectorView');
+                contentTypeSelectorView = this.get('contentTypeSelectorView'),
+                tooltip = document.createElement('div');
+
+            tooltip.classList.add(CLASS_TOOLTIP);
+            tooltip.classList.add(CLASS_HIDDEN);
 
             contentTypeSelectorView.set('contentTypeGroups', event.newVal);
 
-            selectorContainer.append(contentTypeSelectorView.render().get('container').append(TOOLTIP));
+            selectorContainer.append(contentTypeSelectorView.render().get('container').append(tooltip));
             selectorContainer.removeClass(CLASS_LOADING);
         },
 
@@ -328,6 +353,123 @@ YUI.add('cof-contentcreationview', function (Y) {
                 this.set('displayed', false);
             }
         },
+
+        /**
+         * Tries to get a list of suggested locations by firing an event.
+         *
+         * @protected
+         * @method _fetchSuggestedLocations
+         * @param event {Object} event facade
+         */
+        _fetchSuggestedLocations: function (event) {
+            /**
+             * Fired to fetch a list of suggested locations.
+             * Listened in the cof.Plugin.CreateContentUniversalDiscovery
+             *
+             */
+            this.fire('fetchSuggestedLocations', event);
+
+            this.get('container').one(SELECTOR_SUGGESTED_BUTTON).addClass(CLASS_LOADING);
+        },
+
+        /**
+         * Sets the default selected location.
+         *
+         * @protected
+         * @method _setDefaultLocation
+         * @param event {Object} event facade
+         */
+        _setDefaultLocation: function (event) {
+            var defaultLocation = event.newVal[0];
+
+            this.set('selectedLocation', {
+                location: defaultLocation,
+                contentInfo: defaultLocation.get('contentInfo')
+            });
+        },
+
+        /**
+         * Render the suggested locations list.
+         *
+         * @protected
+         * @method _renderSuggestedLocations
+         * @param event {Object} event facade
+         */
+        _renderSuggestedLocations: function (event) {
+            var locations = event.newVal,
+                suggestedList = this.get('container').one(SELECTOR_SUGGESTED_LOCATIONS),
+                itemTemplate = this.get('suggestedItemTemplate'),
+                documentFragment = Y.one(document.createDocumentFragment()),
+                pathSeparator = '/',
+                renderedItem;
+
+            locations.forEach(function (location) {
+                var locationPath = location.get('path'),
+                    locationName = location.get('contentInfo').get('name'),
+                    longPath = pathSeparator;
+
+                if (locationPath.length) {
+                    longPath = locationPath.reduce(function (path, location) {
+                        return path + location.get('contentInfo').get('name') + pathSeparator;
+                    }, '');
+                }
+
+                longPath += locationName;
+
+                renderedItem = Y.Template.Micro.compile(itemTemplate);
+                renderedItem = renderedItem({id: location.get('id'), path: longPath});
+
+                documentFragment.append(renderedItem);
+            });
+
+            suggestedList.setHTML(documentFragment);
+
+            this.get('container').one(SELECTOR_SUGGESTED_BUTTON).removeClass(CLASS_LOADING);
+        },
+
+        /**
+         * Toggles the visibility of suggested locations list
+         *
+         * @protected
+         * @method _toggleSuggestedLocations
+         * @param event {Object} event facade
+         */
+        _toggleSuggestedLocations: function (event) {
+            var showList = event ? event.target.hasClass(CLASS_BUTTON_SUGGESTED) : false,
+                methodName = showList ? 'removeClass' : 'addClass';
+
+            if (event && event.target.hasClass(CLASS_LOADING)) {
+                return;
+            }
+
+            this.get('container').one(SELECTOR_SUGGESTED_LOCATIONS)[methodName](CLASS_SUGGESTED_LOCATIONS_HIDDEN);
+
+            if (showList) {
+                this._clickOutsideSuggestedLocationsHandler = this.get('container')
+                                                                  .one(SELECTOR_SUGGESTED_LOCATIONS)
+                                                                  .on('clickoutside', this._toggleSuggestedLocations, this);
+            } else {
+                this._clickOutsideSuggestedLocationsHandler.detach();
+            }
+        },
+
+        /**
+         * Sets selected location from suggested list.
+         *
+         * @protected
+         * @method _selectSuggestedLocations
+         * @param event {Object} event facade
+         */
+        _selectSuggestedLocations: function (event) {
+            var selectedLocationId = event.currentTarget.getAttribute(ATTR_ID),
+                selectedLocation = this.get('suggestedLocations').filter(function (location) {
+                    return selectedLocationId === location.get('id');
+                })[0];
+
+            this.set('selectedLocation', {location: selectedLocation, contentInfo: selectedLocation.get('contentInfo')});
+
+            this._toggleSuggestedLocations();
+        },
     }, {
         ATTRS: {
             /**
@@ -409,6 +551,24 @@ YUI.add('cof-contentcreationview', function (Y) {
              * @type Object
              */
             selectedLocation: {},
+
+            /**
+             * The suggested locations list
+             *
+             * @attribute suggestedLocations
+             * @type Array
+             */
+            suggestedLocations: {},
+
+            /**
+             * The suggested loction item template
+             *
+             * @attribute suggestedItemTemplate
+             * @type String
+             */
+            suggestedItemTemplate: {
+                value: '<li class="' + CLASS_SUGGESTED_LOCATIONS_ITEM + '" data-id="<%= data.id %>"><abbr title=" <%= data.path %> "><%= data.path %></abbr></li>'
+            },
         }
     });
 });
