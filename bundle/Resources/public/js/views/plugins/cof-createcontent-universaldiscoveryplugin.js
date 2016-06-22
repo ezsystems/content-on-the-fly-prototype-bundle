@@ -33,6 +33,7 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
             host.on('*:restoreDiscoveryWidget', this._restoreDiscoveryWidgetState, this);
             host.on('*:contentLoaded', this._closeDiscoveryWidget, this);
             host.on('activeChange', this._toggleTabCreateVisibility, this);
+            host.on('contentTypeIdentifierChange', this._setContentTypeIdentifier, this);
         },
 
         /**
@@ -90,11 +91,40 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
         _closeDiscoveryWidget: function (event) {
             var host = this.get('host');
 
+            /**
+             * Fired to confirm selection in the universal discovery widget.
+             * Listened in the eZ.UniversalDiscoveryView
+             *
+             * @event confirmSelectedContent
+             * @param selection {Object} the selected content
+             */
             host.fire('confirmSelectedContent', {selection: event});
 
+            /**
+             * Fired to inform thaht content is discovered.
+             * Listened in the eZ.Plugin.UniversalDiscovery
+             *
+             * @event contentDiscovered
+             * @param selection {Object} the selected content
+             */
             host.fire('contentDiscovered', {
                 selection: host.get('selection'),
             });
+        },
+
+        /**
+         * Sets content type identifier.
+         *
+         * @protected
+         * @method _setContentTypeIdentifier
+         * @param event {Object} event facade
+         */
+        _setContentTypeIdentifier: function (event) {
+            var contentTypeIdentifier = event.newVal;
+
+            if (contentTypeIdentifier && contentTypeIdentifier !== event.prevVal) {
+                this.get('tabCreateView').get('contentCreationView').set('contentTypeIdentifier', contentTypeIdentifier);
+            }
         },
     }, {
         NS: 'createContentUniversalDiscoveryWidgetPlugin',

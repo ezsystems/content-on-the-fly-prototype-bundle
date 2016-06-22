@@ -74,8 +74,9 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
 
             /**
              * Informs an item is selected.
-             * Listened in the eZS.CreateContentPopupView
+             * Listened in the cof.ContentCreationView
              *
+             * @event itemSelected
              * @param text {String} text to show on remove button
              */
             this.fire('itemSelected', {text: event.text});
@@ -196,7 +197,8 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
               * Fired to prepare content model for content type.
               * Listened in the eZS.Plugin.SelectCreateContent
               *
-              * @param contentType {Object} the content type model
+              * @event prepareContentModel
+              * @param contentType {eZ.ContentType} the content type model
               */
              this.fire('prepareContentModel', {contentType: type});
          },
