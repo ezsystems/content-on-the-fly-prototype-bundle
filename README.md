@@ -61,6 +61,9 @@ parameters:
                 - 43    # /Media
 ```
 
+## Default location for content type
+If suggested locations are given for content type (or default) the first location in the list will be preselected as location.
+
 ## Preselected content type
 To set the content type you have to provide 'contentTypeIdentifier' in the config of the 'contentDiscover' event.
 Example:
@@ -69,6 +72,7 @@ Example:
 * ...
 * @param config.visibleMethod {String} which tab should be open. Default: 'browse', possible values: 'browse', 'search', 'create'
 * @param config.contentTypeIdentifier {String} content type identifier. Default: none, example values: 'image', 'blog', 'article', 'blog_post'
+*        config.contentTypeIdentifier is limited to the Create tab, config that works across all tabs will be added in the future
 */
 app.fire('contentDiscover', {
     config: {
