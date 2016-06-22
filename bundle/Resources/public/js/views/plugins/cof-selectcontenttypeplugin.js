@@ -40,6 +40,13 @@ YUI.add('cof-selectcontenttypeplugin', function (Y) {
                                 event.target.set('suggestedLocations', result);
                             })
                             .catch(function (error) {
+                                /**
+                                 * Displays a notification bar with error message.
+                                 * Listened by eZ.PlatformUIApp
+                                 *
+                                 * @event notify
+                                 * @param notification {Object} notification data
+                                 */
                                 host.fire('notify', {
                                     notification: {
                                         text: error.message || 'An unexpected error has occurred',

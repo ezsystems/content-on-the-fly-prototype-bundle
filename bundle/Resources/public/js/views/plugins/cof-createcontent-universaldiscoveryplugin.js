@@ -91,8 +91,22 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
         _closeDiscoveryWidget: function (event) {
             var host = this.get('host');
 
+            /**
+             * Fired to confirm selection in the universal discovery widget.
+             * Listened in the eZ.UniversalDiscoveryView
+             *
+             * @event confirmSelectedContent
+             * @param selection {Object} the selected content
+             */
             host.fire('confirmSelectedContent', {selection: event});
 
+            /**
+             * Fired to inform thaht content is discovered.
+             * Listened in the eZ.Plugin.UniversalDiscovery
+             *
+             * @event contentDiscovered
+             * @param selection {Object} the selected content
+             */
             host.fire('contentDiscovered', {
                 selection: host.get('selection'),
             });

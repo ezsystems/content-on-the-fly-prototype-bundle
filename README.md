@@ -27,7 +27,7 @@ Platform UI Content on the Fly feature
 
 4. Clear cache and setup assets with `$ composer run-script post-update-cmd`
 
-   *(if you use prod env make sure that is set with `$ export SYMFONY_ENV=prod` first)*.
+   *(if you use prod env make sure that it is set with `$ export SYMFONY_ENV=prod` first)*.
 
 
 ## Configuration
@@ -62,17 +62,17 @@ parameters:
 ```
 
 ## Default location for content type
-If suggested locations are given for content type (or default) the first location in the list will be preselected as location.
+If suggested locations are provided for a Content Type (or default) the first location in the list will be preselected.
 
 ## Preselected content type
-To set the content type you have to provide 'contentTypeIdentifier' in the config of the 'contentDiscover' event.
+To set the Content Type you have to provide the 'contentTypeIdentifier' in the config of the 'contentDiscover' event.
 Example:
 ```javascript
 /**
 * ...
 * @param config.visibleMethod {String} which tab should be open. Default: 'browse', possible values: 'browse', 'search', 'create'
 * @param config.contentTypeIdentifier {String} content type identifier. Default: none, example values: 'image', 'blog', 'article', 'blog_post'
-*        config.contentTypeIdentifier is limited to the Create tab, config that works across all tabs will be added in the future
+*                                     this parameter is limited to the Create tab, config that works across all tabs will be added in the future
 */
 app.fire('contentDiscover', {
     config: {

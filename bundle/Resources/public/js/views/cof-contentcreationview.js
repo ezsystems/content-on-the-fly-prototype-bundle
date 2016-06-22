@@ -147,17 +147,17 @@ YUI.add('cof-contentcreationview', function (Y) {
          * @param event {Object} event facade
          */
         _getContentTypes: function (event) {
-            var eventNewVal = event.newVal,
+            var displayed = event.newVal,
                 container = this.get('container'),
                 contentTypeContainer = container.one(SELECTOR_CONTENT_TYPE),
                 nextButton = container.one(SELECTOR_NEXT_BUTTON),
                 restoreFormState = this.get('restoreFormState');
 
-            if (!eventNewVal && !restoreFormState) {
+            if (!displayed && !restoreFormState) {
                 this._resetFormState();
 
                 return;
-            } else if (eventNewVal && restoreFormState) {
+            } else if (displayed && restoreFormState) {
                 this.set('restoreFormState', false);
 
                 return;
@@ -175,6 +175,8 @@ YUI.add('cof-contentcreationview', function (Y) {
             /**
              * Fetches the content types data.
              * Listened in the cof.Plugin.createContentSelectContentType
+             *
+             * @event fetchContentTypes
              */
             this.fire('fetchContentTypes');
         },
@@ -246,12 +248,14 @@ YUI.add('cof-contentcreationview', function (Y) {
              * Fired to save the current state of Discovery Widget.
              * Listened in the cof.Plugin.CreateContentUniversalDiscovery
              *
+             * @event saveDiscoveryState
              */
             this.fire('saveDiscoveryState');
             /**
              * Fired to open new Discovery Widget.
-             * Listened in the cof.Plugin.createContentSelectContentType
+             * Listened in the cof.Plugin.selectContentType
              *
+             * @event openUniversalDiscoveryWidget
              */
             this.fire('openUniversalDiscoveryWidget');
 
@@ -266,9 +270,9 @@ YUI.add('cof-contentcreationview', function (Y) {
          * @param event {Object} event facade
          */
         _updateSelectedLocation: function (event) {
-            var eventNewVal = event.newVal,
-                locationPath = eventNewVal.location.get('path'),
-                contentInfo = eventNewVal.contentInfo,
+            var selectedLocation = event.newVal,
+                locationPath = selectedLocation.location.get('path'),
+                contentInfo = selectedLocation.contentInfo,
                 selectedName = contentInfo.get('name'),
                 pathSeparator = '/',
                 selectedPath = pathSeparator;
@@ -285,8 +289,10 @@ YUI.add('cof-contentcreationview', function (Y) {
              * Fired to set selected location where place the new content.
              * Listened in the eZS.Plugin.UniversalDiscoveryWidgetService
              *
+             * @event setParentLocation
+             * @param selectedLocation {Object} the selected location
              */
-            this.fire('setParentLocation', {selectedLocation: eventNewVal.location});
+            this.fire('setParentLocation', {selectedLocation: selectedLocation.location});
 
             this._enableFinishButton();
 
@@ -392,6 +398,8 @@ YUI.add('cof-contentcreationview', function (Y) {
              * Fired to fetch a list of suggested locations.
              * Listened in the cof.Plugin.CreateContentUniversalDiscovery
              *
+             * @event fetchSuggestedLocations
+             * @param event {eZ.ContentType} the seleceted content type
              */
             this.fire('fetchSuggestedLocations', event);
 
@@ -538,7 +546,8 @@ YUI.add('cof-contentcreationview', function (Y) {
                          * Fired to prepare content model for content type.
                          * Listened in the eZS.Plugin.SelectCreateContent
                          *
-                         * @param contentType {Object} the content type model
+                         * @event prepareContentModel
+                         * @param contentType {eZ.ContentType} the content type model
                          */
                         contentTypeSelector.fire('prepareContentModel', {contentType: contentType});
                     }
