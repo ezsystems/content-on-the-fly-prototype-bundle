@@ -14,6 +14,7 @@ YUI.add('cof-contentcreationview', function (Y) {
 
     var CLASS_HIDDEN = 'cof-is-hidden',
         CLASS_LOADING = 'is-loading',
+        CLASS_INDEX_FORCED = 'cof-index-forced',
         CLASS_CONTENT_CREACTION = 'cof-content-creation',
         CLASS_TOOLTIP = CLASS_CONTENT_CREACTION + '__tooltip',
         CLASS_BUTTON = 'cof-btn',
@@ -33,6 +34,7 @@ YUI.add('cof-contentcreationview', function (Y) {
         SELECTOR_ITEM_SELECTED = '.ez-selection-filter-item-selected',
         SELECTOR_SUGGESTED_LOCATIONS = SELECTOR_CONTENT_CREACTION + '__suggested-locations',
         SELECTOR_SUGGESTED_ITEM = SELECTOR_SUGGESTED_LOCATIONS + '__item',
+        SELECTOR_UDW_CONTAINER = '.ez-universaldiscovery-container',
         ATTR_DESCRIPTION = 'data-description',
         ATTR_ID = 'data-id',
         SELECTOR_EDIT_LOCATION_BUTTON = SELECTOR_BUTTON +  '--edit-location',
@@ -348,6 +350,8 @@ YUI.add('cof-contentcreationview', function (Y) {
 
             createContentView.set('active', true);
 
+            Y.one(SELECTOR_UDW_CONTAINER).addClass(CLASS_INDEX_FORCED);
+
             this._hideButtons(createContentView);
         },
 
@@ -380,6 +384,7 @@ YUI.add('cof-contentcreationview', function (Y) {
             var container = this.get('container');
 
             container.one(SELECTOR_CONTENT_CREATOR).addClass(CLASS_HIDDEN);
+            Y.one(SELECTOR_UDW_CONTAINER).removeClass(CLASS_INDEX_FORCED);
 
             if (hideWidget) {
                 this.set('displayed', false);

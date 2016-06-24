@@ -12,8 +12,10 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
     Y.namespace('cof.Plugin');
 
     var CLASS_HIDDEN = 'cof-is-hidden',
+        CLASS_INDEX_FORCED = 'cof-index-forced',
         SELECTOR_TAB_CREATE = '[href="#ez-ud-create"]',
-        SELECTOR_TAB_LABEL = '.ez-tabs-label';
+        SELECTOR_TAB_LABEL = '.ez-tabs-label',
+        SELECTOR_UDW_CONTAINER = '.ez-universaldiscovery-container';
 
     /**
      * Content on the Fly plugin. Extends the Universal Discovery Widget View
@@ -90,6 +92,8 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
          */
         _closeDiscoveryWidget: function (event) {
             var host = this.get('host');
+
+            Y.one(SELECTOR_UDW_CONTAINER).removeClass(CLASS_INDEX_FORCED);
 
             /**
              * Fired to confirm selection in the universal discovery widget.
