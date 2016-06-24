@@ -53,8 +53,8 @@
     position: relative;
 }
 
-.ez-view-contentcreationview .cof-content-creation__location--title {
-    margin: 1rem 0;
+.ez-view-contentcreationview .cof-content-creation__location__title {
+    margin: 2rem 0;
 }
 
 .ez-view-contentcreationview .cof-content-creation__location {
@@ -70,7 +70,7 @@
 }
 
 .ez-view-contentcreationview .cof-btn--edit-location {
-    margin: .5rem auto;
+    margin: 2rem auto;
 }
 
 .ez-view-contentcreationview .cof-btn--select {
@@ -121,14 +121,16 @@
 .ez-view-contentcreationview .cof-content-creation__suggested-locations {
     margin: 0;
     padding: 0;
-    transform: translateY(-2rem) scaleY(1);
+    transform: translateY(-2.2rem) scaleY(1);
     transform-origin: top;
     overflow-y: auto;
     max-height: 12rem;
+    width: 17rem;
+    position: absolute;
 }
 
 .ez-view-contentcreationview .cof-content-creation__suggested-locations--is-hidden {
-    transform: translateY(-2rem) scaleY(0);
+    transform: translateY(-2.2rem) scaleY(0);
 }
 
 .ez-view-contentcreationview .cof-content-creation__suggested-locations__item {

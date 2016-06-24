@@ -14,19 +14,13 @@
         height: 100%;
     }
 
-    .ez-view-universaldiscoverycreateview .cof-pagination {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-    }
-
     .ez-view-universaldiscoverycreateview .cof-pagination__btn--finish {
         margin-left: .5rem
     }
 
     .ez-view-universaldiscoverycreateview .ez-view-contentcreationview {
-        height: auto;
-        margin: .7rem auto;
+        height: 100%;
+        margin: .5rem auto;
         padding: 0 2rem;
     }
 
@@ -40,10 +34,32 @@
     }
 
     .ez-view-universaldiscoverycreateview .cof-content-creation__content-type-selector {
-        min-height: 19.625rem;
+        min-height: 18.625rem;
     }
 
     .ez-view-universaldiscoverycreateview .ez-view-contenttypeselectorview.ez-selection-filter .ez-selection-filter-list {
-        max-height: 7rem;
+        max-height: 8rem;
+    }
+
+    .ez-view-universaldiscoverycreateview .ez-view-contentcreationview .cof-content-creation__location__title {
+        margin: 1.5rem 0;
+    }
+}
+
+@media (max-width: 1260px) {
+    .ez-view-universaldiscoverycreateview .cof-content-creation__content-type-selector {
+        min-height: 17.625rem;
+    }
+
+    .ez-view-universaldiscoverycreateview .ez-view-contenttypeselectorview.ez-selection-filter .ez-selection-filter-list {
+        max-height: 5rem;
+    }
+
+    .ez-view-universaldiscoverycreateview .ez-view-contentcreationview .cof-btn--edit-location {
+        margin: 1rem auto;
+    }
+
+    .ez-view-universaldiscoverycreateview .ez-view-contentcreationview .cof-content-creation__location__title {
+        margin: 1rem 0;
     }
 }

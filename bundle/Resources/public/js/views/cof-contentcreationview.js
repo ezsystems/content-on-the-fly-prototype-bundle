@@ -15,6 +15,7 @@ YUI.add('cof-contentcreationview', function (Y) {
     var CLASS_HIDDEN = 'cof-is-hidden',
         CLASS_LOADING = 'is-loading',
         CLASS_INDEX_FORCED = 'cof-index-forced',
+        CLASS_ACTIVE = 'cof-is-active',
         CLASS_CONTENT_CREACTION = 'cof-content-creation',
         CLASS_TOOLTIP = CLASS_CONTENT_CREACTION + '__tooltip',
         CLASS_BUTTON = 'cof-btn',
@@ -39,6 +40,7 @@ YUI.add('cof-contentcreationview', function (Y) {
         ATTR_ID = 'data-id',
         SELECTOR_EDIT_LOCATION_BUTTON = SELECTOR_BUTTON +  '--edit-location',
         SELECTOR_LOCATION = SELECTOR_CONTENT_CREACTION + '__location',
+        SELECTOR_LOCATION_TITLE = SELECTOR_LOCATION + '__title',
         SELECTOR_CONTENT_CREATOR = SELECTOR_CONTENT_CREACTION + '__creator',
         ATTR_ACTION = 'data-action',
         SELECTOR_ACTION = '[' + ATTR_ACTION + ']',
@@ -272,7 +274,8 @@ YUI.add('cof-contentcreationview', function (Y) {
          * @param event {Object} event facade
          */
         _updateSelectedLocation: function (event) {
-            var selectedLocation = event.newVal,
+            var container = this.get('container'),
+                selectedLocation = event.newVal,
                 locationPath = selectedLocation.location.get('path'),
                 contentInfo = selectedLocation.contentInfo,
                 selectedName = contentInfo.get('name'),
@@ -285,7 +288,8 @@ YUI.add('cof-contentcreationview', function (Y) {
 
             selectedPath += selectedName;
 
-            this.get('container').one(SELECTOR_LOCATION).setHTML(selectedPath);
+            container.one(SELECTOR_LOCATION).setHTML(selectedPath);
+            container.one(SELECTOR_LOCATION_TITLE).addClass(CLASS_ACTIVE);
 
             /**
              * Fired to set selected location where place the new content.
@@ -440,12 +444,19 @@ YUI.add('cof-contentcreationview', function (Y) {
                 itemTemplate = this.get('suggestedItemTemplate'),
                 documentFragment = Y.one(document.createDocumentFragment()),
                 pathSeparator = '/',
+                endLongPath = '...',
+                insidePathSeparator = pathSeparator + endLongPath + pathSeparator,
+                maxPathLength = 40,
+                minVisibleCharsNumber = 3,
                 renderedItem;
 
             locations.forEach(function (location) {
                 var locationPath = location.get('path'),
                     locationName = location.get('contentInfo').get('name'),
-                    longPath = pathSeparator;
+                    shortPath = pathSeparator,
+                    longPath = pathSeparator,
+                    availableCharsCount,
+                    substringEndIndex;
 
                 if (locationPath.length) {
                     longPath = locationPath.reduce(function (path, location) {
@@ -453,10 +464,32 @@ YUI.add('cof-contentcreationview', function (Y) {
                     }, '');
                 }
 
+                if (locationPath.length >= minVisibleCharsNumber) {
+                    shortPath =  [
+                        locationPath[0].get('contentInfo').get('name'),
+                        insidePathSeparator,
+                        locationPath[locationPath.length - 1].get('contentInfo').get('name'),
+                        pathSeparator
+                    ].join('');
+                } else {
+                    shortPath = longPath;
+                }
+
                 longPath += locationName;
 
+                if (shortPath.length + locationName.length > maxPathLength) {
+                    availableCharsCount = maxPathLength - shortPath.length;
+
+                    substringEndIndex = availableCharsCount > minVisibleCharsNumber ? availableCharsCount : minVisibleCharsNumber;
+
+                    shortPath += locationName.substring(0, substringEndIndex) + endLongPath;
+                } else {
+                    shortPath += locationName;
+                }
+
+
                 renderedItem = Y.Template.Micro.compile(itemTemplate);
-                renderedItem = renderedItem({id: location.get('id'), path: longPath});
+                renderedItem = renderedItem({id: location.get('id'), longPath: longPath, shortPath: shortPath});
 
                 documentFragment.append(renderedItem);
             });
@@ -656,7 +689,7 @@ YUI.add('cof-contentcreationview', function (Y) {
              * @type String
              */
             suggestedItemTemplate: {
-                value: '<li class="' + CLASS_SUGGESTED_LOCATIONS_ITEM + '" data-id="<%= data.id %>"><abbr title=" <%= data.path %> "><%= data.path %></abbr></li>'
+                value: '<li class="' + CLASS_SUGGESTED_LOCATIONS_ITEM + '" data-id="<%= data.id %>"><abbr title=" <%= data.longPath %> "><%= data.shortPath %></abbr></li>'
             },
 
             /**
