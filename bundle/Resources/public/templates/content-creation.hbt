@@ -3,7 +3,7 @@
         <div class="cof-content-creation__header">
             <ul class="cof-content-creation__header__list">
                 <li class="cof-content-creation__header__text cof-content-creation__header__text--highlighted">Choose a Content Type</li>
-                <li class="cof-content-creation__header__text">Confirm Location</li>
+                <li class="cof-content-creation__header__text">Select Location</li>
             </ul>
         </div>
         <div class="cof-content-creation__content-type-selector"></div>
@@ -14,15 +14,15 @@
                 <li class="cof-content-creation__header__text">Choose a Content Type
                     <button class="cof-btn cof-btn--rounded cof-btn--change-content-type"></button>
                 </li>
-                <li class="cof-content-creation__header__text cof-content-creation__header__text--highlighted">Confirm Location</li>
+                <li class="cof-content-creation__header__text cof-content-creation__header__text--highlighted">Select Location</li>
             </ul>
         </div>
-        <h4 class="cof-content-creation__location--title">Selected Location:</h4>
-        <span class="cof-content-creation__location"></span>
         <button class="cof-btn cof-btn--big cof-btn--rounded cof-btn--edit-location">Select Location</button>
         <span class="cof-content-creation__separator">or</span>
         <button class="cof-btn cof-btn--big cof-btn--select">Select from Suggested Locations</button>
         <ul class="cof-content-creation__suggested-locations cof-content-creation__suggested-locations--is-hidden"></ul>
+        <h4 class="cof-content-creation__location__title">Selected Location:</h4>
+        <span class="cof-content-creation__location"></span>
     </div>
 </div>
 <div class="cof-pagination">

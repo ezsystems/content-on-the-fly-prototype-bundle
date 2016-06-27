@@ -18,3 +18,7 @@
 .cof-index-forced {
     z-index: 5 !important;
 }
+
+.cof-is-active {
+    color: #000 !important;
+}
