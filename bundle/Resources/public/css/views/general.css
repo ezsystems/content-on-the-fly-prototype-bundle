@@ -14,3 +14,7 @@
 .cof-index-reset {
     z-index: auto !important;
 }
+
+.cof-index-forced {
+    z-index: 5 !important;
+}
