@@ -4,9 +4,9 @@
  */
 
 .ez-view-contentcreationview {
-    width: 25rem;
-    height: 42rem;
-    padding: 2rem;
+    width: 23rem;
+    height: 100%;
+    padding: 1rem;
     box-sizing: border-box;
 }
 
@@ -21,14 +21,13 @@
 
 .ez-view-contentcreationview .cof-content-creation__content {
     display: flex;
-    height: 34rem;
     overflow: hidden;
 }
 
 .ez-view-contentcreationview .cof-content-creation__page-one,
 .ez-view-contentcreationview .cof-content-creation__page-two {
     flex: 1 0 100%;
-    padding: 2rem;
+    padding: 0 2rem;
     box-sizing: border-box;
 }
 
@@ -49,7 +48,7 @@
 
 .ez-view-contentcreationview .cof-content-creation__content-type-selector {
     padding: .5rem;
-    min-height: 15rem;
+    min-height: 24.625rem;
     position: relative;
 }
 
