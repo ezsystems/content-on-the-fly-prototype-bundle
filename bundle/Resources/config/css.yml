@@ -12,5 +12,4 @@ system:
                - '@ContentOnTheFlyBundle/Resources/public/css/theme/views/content-creation.css'
                - '@ContentOnTheFlyBundle/Resources/public/css/theme/views/discovery-create.css'
                - '@ContentOnTheFlyBundle/Resources/public/css/theme/views/content-type.css'
-               - '@ContentOnTheFlyBundle/Resources/public/css/theme/views/discovery-create.css'
                - '@ContentOnTheFlyBundle/Resources/public/css/theme/views/create-content-popup.css'
