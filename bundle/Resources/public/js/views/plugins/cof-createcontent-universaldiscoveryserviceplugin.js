@@ -73,7 +73,7 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
             var host = this.get('host'),
                 app = host.get('app');
 
-            if (target.get('preventClosingDiscoveryWidget')) {
+            if (target.get('closingDiscoveryWidgetPrevented')) {
                 event.preventDefault();
                 event.stopPropagation();
             }
