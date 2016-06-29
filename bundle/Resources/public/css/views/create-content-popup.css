@@ -13,7 +13,12 @@
 }
 
 .ez-view-createcontentpopupview .ez-view-contentcreationview {
-    height: 40rem;
+    height: 39rem;
+}
+
+.ez-view-createcontentpopupview .cof-content-creation__page-one,
+.ez-view-createcontentpopupview .cof-content-creation__page-two {
+    padding: 2rem;
 }
 
 .ez-view-createcontentpopupview .cof-create-popup {
