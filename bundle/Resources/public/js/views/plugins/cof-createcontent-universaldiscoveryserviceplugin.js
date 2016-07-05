@@ -224,21 +224,27 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
         /**
          * Loads the content location of the published content
          *
-         * @method _setSelectedLocation
+         * @method _loadContentLocation
          * @protected
          * @param event {Object} event facade
          */
         _loadContentLocation: function (event) {
-            var host = this.get('host');
+            var udwService = this.get('host'),
+                selection = {
+                    contentType: udwService.get('contentType'),
+                };
 
-            event.content.loadLocations({api: host.get('capi')}, function (error, response) {
-                host.get('app').set('loading', false);
+            if ( udwService.get('parameters').loadContent ) {
+                selection.content = event.content;
+            }
 
-                host.get('eventTarget').fire('contentLoaded', {
-                    contentInfo: event.content,
-                    location: response[0],
-                    contentType: host.get('contentType')
-                });
+            event.content.loadLocations({api: udwService.get('capi')}, function (error, locations) {
+                selection.location = locations[0];
+                selection.contentInfo = locations[0].get('contentInfo');
+
+                udwService.get('app').set('loading', false);
+
+                udwService.get('eventTarget').fire('contentLoaded', selection);
             });
         },
 
