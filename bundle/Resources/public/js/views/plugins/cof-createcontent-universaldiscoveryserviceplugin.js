@@ -232,18 +232,19 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
             var udwService = this.get('host'),
                 selection = {
                     contentType: udwService.get('contentType'),
-                };
+                },
+                mainLocation = new Y.eZ.Location();
 
             if ( udwService.get('parameters').loadContent ) {
                 selection.content = event.content;
             }
 
-            event.content.loadLocations({api: udwService.get('capi')}, function (error, locations) {
-                selection.location = locations[0];
-                selection.contentInfo = locations[0].get('contentInfo');
+            mainLocation.set('id', event.content.get('resources').MainLocation);
+            mainLocation.load({api: udwService.get('capi')}, function (error) {
+                selection.location = mainLocation;
+                selection.contentInfo = mainLocation.get('contentInfo');
 
                 udwService.get('app').set('loading', false);
-
                 udwService.get('eventTarget').fire('contentLoaded', selection);
             });
         },
