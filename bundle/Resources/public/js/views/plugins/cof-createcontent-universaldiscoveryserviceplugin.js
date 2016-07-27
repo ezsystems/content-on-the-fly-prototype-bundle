@@ -15,6 +15,15 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
 
     Y.cof.Plugin.CreateContentUniversalDiscoveryService = Y.Base.create('CreateContentUniversalDiscoveryServicePlugin', Y.eZ.Plugin.ViewServiceBase, [Y.eZ.Plugin.PublishDraft], {
         initializer: function () {
+            /**
+             * Stores the attributes of saved discovery widget
+             *
+             * @property _savedDiscoveryAttributes
+             * @type {Object}
+             * @protected
+             */
+            this._savedDiscoveryAttributes = null;
+
             this.onHostEvent('*:openUniversalDiscoveryWidget', this._openUniversalDiscoveryWidget, this);
             this.onHostEvent('*:prepareContentModel', this._loadContentTypeData, this);
             this.onHostEvent('*:setParentLocation', this._setParentLocation, this);
@@ -103,6 +112,8 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
             }, this));
 
             target.set('displayed', true);
+
+            this._savedDiscoveryAttributes = target.get('savedDiscoveryState');
 
             /**
              * Fired to restore the universal discovery state.
@@ -230,12 +241,13 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
          */
         _loadContentLocation: function (event) {
             var udwService = this.get('host'),
+                udwParameters = udwService.get('parameters') ? udwService.get('parameters') : this._savedDiscoveryAttributes,
                 selection = {
                     contentType: udwService.get('contentType'),
                 },
                 mainLocation = new Y.eZ.Location();
 
-            if ( udwService.get('parameters').loadContent ) {
+            if ( udwParameters.loadContent ) {
                 selection.content = event.content;
             }
 
