@@ -67,7 +67,9 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
                     if (contentTypeItemId === contentType.get('id')) {
                         var description = contentType.get('descriptions')[contentType.get('mainLanguageCode')];
 
-                        contentTypeItem.setAttribute(ATTR_DESCRIPTION, description);
+                        if (description) {
+                            contentTypeItem.setAttribute(ATTR_DESCRIPTION, description);
+                        }
                     }
                 });
             });
