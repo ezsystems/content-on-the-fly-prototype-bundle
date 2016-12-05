@@ -5,9 +5,18 @@
  */
 namespace EzSystems\EzContentOnTheFlyBundle;
 
+use EzSystems\EzContentOnTheFlyBundle\DependencyInjection\ContentOnTheFlyExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class EzSystemsEzContentOnTheFlyBundle extends Bundle
 {
     protected $name = 'ContentOnTheFlyBundle';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContainerExtension()
+    {
+        return new ContentOnTheFlyExtension();
+    }
 }
