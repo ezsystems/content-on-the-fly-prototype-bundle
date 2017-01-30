@@ -10,7 +10,7 @@ system:
                         - 'ez-pluginregistry'
                         - 'cof-universaldiscoverycreateview'
                     dependencyOf: ['ez-universaldiscoveryview']
-                    path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-universaldiscoveryplugin.js
+                    path: "%ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-universaldiscoveryplugin.js"
                 cof-createcontent-universaldiscoveryserviceplugin:
                     requires:
                         - 'plugin'
@@ -21,27 +21,27 @@ system:
                         - 'ez-pluginregistry'
                         - 'ez-viewservicebaseplugin'
                     dependencyOf: ['ez-universaldiscoveryviewservice', ez-dashboardblocksviewservice]
-                    path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-universaldiscoveryserviceplugin.js
+                    path: "%ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-universaldiscoveryserviceplugin.js"
                 cof-selectcontenttypeplugin:
                     requires: ['ez-contentcreateplugin', 'ez-locationmodel']
                     dependencyOf: ['ez-universaldiscoveryviewservice', 'ez-dashboardblocksviewservice']
-                    path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-selectcontenttypeplugin.js
+                    path: "%ezcontentonthefly.public_dir%/js/views/plugins/cof-selectcontenttypeplugin.js"
                 cof-createcontent-dashboardblocksplugin:
                     requires:
                         - 'plugin'
                         - 'ez-pluginregistry'
                         - 'cof-createcontentbuttonview'
                     dependencyOf: ['ez-dashboardblocksview']
-                    path: %ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-dashboardblocksplugin.js
+                    path: "%ezcontentonthefly.public_dir%/js/views/plugins/cof-createcontent-dashboardblocksplugin.js"
                 cof-universaldiscoverycreateview:
                     requires:
                         - 'ez-universaldiscoverymethodbaseview'
                         - 'cof-contentcreationview'
                         - 'universaldiscoverycreateview-ez-template'
-                    path: %ezcontentonthefly.public_dir%/js/views/cof-universaldiscoverycreateview.js
+                    path: "%ezcontentonthefly.public_dir%/js/views/cof-universaldiscoverycreateview.js"
                 universaldiscoverycreateview-ez-template:
                     type: 'template'
-                    path: %ezcontentonthefly.public_dir%/templates/blank.hbt
+                    path: "%ezcontentonthefly.public_dir%/templates/blank.hbt"
                 cof-contentcreationview:
                     requires:
                         - 'template-micro'
@@ -50,33 +50,33 @@ system:
                         - 'ez-templatebasedview'
                         - 'ez-contenteditview'
                         - 'contentcreationview-ez-template'
-                    path: %ezcontentonthefly.public_dir%/js/views/cof-contentcreationview.js
+                    path: "%ezcontentonthefly.public_dir%/js/views/cof-contentcreationview.js"
                 contentcreationview-ez-template:
                     type: 'template'
-                    path: %ezcontentonthefly.public_dir%/templates/content-creation.hbt
+                    path: "%ezcontentonthefly.public_dir%/templates/content-creation.hbt"
                 cof-contenttypeselectorview:
                     requires:
                         - 'ez-contenttypeselectorview'
                         - 'contenttypeselectorview-ez-template'
-                    path: %ezcontentonthefly.public_dir%/js/views/cof-contenttypeselectorview.js
+                    path: "%ezcontentonthefly.public_dir%/js/views/cof-contenttypeselectorview.js"
                 contenttypeselectorview-ez-template:
                     type: 'template'
-                    path: %ez_platformui.public_dir%/templates/contenttypeselector.hbt
+                    path: "%ez_platformui.public_dir%/templates/contenttypeselector.hbt"
                 cof-createcontentbuttonview:
                     requires:
                         - 'ez-templatebasedview'
                         - 'cof-createcontentpopupview'
                         - 'createcontentbuttonview-ez-template'
-                    path: %ezcontentonthefly.public_dir%/js/views/cof-createcontentbuttonview.js
+                    path: "%ezcontentonthefly.public_dir%/js/views/cof-createcontentbuttonview.js"
                 createcontentbuttonview-ez-template:
                     type: 'template'
-                    path: %ezcontentonthefly.public_dir%/templates/create-content-button.hbt
+                    path: "%ezcontentonthefly.public_dir%/templates/create-content-button.hbt"
                 cof-createcontentpopupview:
                     requires:
                         - 'ez-templatebasedview'
                         - 'cof-contentcreationview'
                         - 'createcontentpopupview-ez-template'
-                    path: %ezcontentonthefly.public_dir%/js/views/cof-createcontentpopupview.js
+                    path: "%ezcontentonthefly.public_dir%/js/views/cof-createcontentpopupview.js"
                 createcontentpopupview-ez-template:
                     type: 'template'
-                    path: %ezcontentonthefly.public_dir%/templates/create-content-popup.hbt
+                    path: "%ezcontentonthefly.public_dir%/templates/create-content-popup.hbt"
