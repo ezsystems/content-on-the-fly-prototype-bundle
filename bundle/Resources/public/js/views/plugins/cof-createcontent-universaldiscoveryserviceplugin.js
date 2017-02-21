@@ -274,7 +274,7 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
             if (host.get('parentLocation') && service instanceof Y.eZ.ContentCreateViewService) {
                 service.setAttrs({
                     parentLocation: host.get('parentLocation'),
-                    parentContent: host.get('contentType'),
+                    parentContent: host.get('content'),
                     contentType: host.get('contentType'),
                     languageCode: host.get('languageCode')
                 });
