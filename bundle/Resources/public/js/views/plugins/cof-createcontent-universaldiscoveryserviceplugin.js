@@ -64,7 +64,7 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
                     multiple: false,
                     contentDiscoveredHandler: Y.bind(this._setSelectedLocation, this, target),
                     isSelectable: function () {return true;},
-                    visibleMethod: 'browse',
+                    forceVisibleMethod: true,
                     hideTabCreate: true
                 },
             });

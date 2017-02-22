@@ -31,6 +31,8 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
 
             host.get('methods').push(this.get('tabCreateView'));
 
+            host.before('activeChange', this._checkBrowseMethodPresence, host);
+
             host.on('*:saveDiscoveryState', this._saveDiscoveryWidgetState, this);
             host.on('*:restoreDiscoveryWidget', this._restoreDiscoveryWidgetState, this);
             host.on('*:contentLoaded', this._closeDiscoveryWidget, this);
@@ -47,6 +49,32 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
          */
         _saveDiscoveryWidgetState: function (event) {
             event.target.set('savedDiscoveryState', this.get('host').getAttrs());
+        },
+
+        /**
+         * Checks if `browse` method is present in the methods definitions.
+         * If not, then sets the visible method to `finder`
+         *
+         * @method _checkBrowseMethodPresence
+         * @protected
+         * @param event {Object} event facade
+         */
+        _checkBrowseMethodPresence: function (event) {
+            var browseMethod,
+                methodToSet;
+
+            if (!event.newVal || !this.get('forceVisibleMethod')) {
+                return;
+            }
+
+            browseMethod = this.get('methods').filter(function (method) {
+                return method.get('identifier') === 'browse';
+            })[0];
+
+            methodToSet = browseMethod ? 'browse' : 'finder';
+
+            this.set('visibleMethod', methodToSet);
+            this.set('forceVisibleMethod', false);
         },
 
         /**
