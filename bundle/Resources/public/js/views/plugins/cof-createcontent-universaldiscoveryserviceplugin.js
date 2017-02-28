@@ -269,14 +269,20 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
          * @param {eZ.ViewService} service
          */
         setNextViewServiceParameters: function (service) {
-            var host = this.get('host');
+            var host = this.get('host'),
+                content = host.get('content'),
+                languageCode = host.get('languageCode');
+
+            if (content && !content.get('mainLanguageCode')) {
+                content.set('mainLanguageCode', languageCode);
+            }
 
             if (host.get('parentLocation') && service instanceof Y.eZ.ContentCreateViewService) {
                 service.setAttrs({
                     parentLocation: host.get('parentLocation'),
-                    parentContent: host.get('content'),
+                    parentContent: content,
                     contentType: host.get('contentType'),
-                    languageCode: host.get('languageCode')
+                    languageCode: languageCode
                 });
             }
         },
