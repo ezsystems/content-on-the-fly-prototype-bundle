@@ -1,6 +1,7 @@
 {
     "name": "ezsystems/content-on-the-fly-prototype",
     "description": "Platform UI Content on the Fly feature",
+    "type": "ezplatform-bundle",
     "authors": [
         {
             "name": "eZ Systems",
