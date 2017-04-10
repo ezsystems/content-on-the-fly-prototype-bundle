@@ -14,6 +14,7 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
 
     var CLASS_HIDDEN = 'cof-is-hidden',
         CLASS_INVISIBLE = 'cof-invisible',
+        CLASS_TOOLTIP_ERROR = 'cof-content-creation__tooltip--error',
         SELECTOR_ITEM_SELECTED = '.ez-selection-filter-item-selected',
         SELECTOR_CONTENT_TYPE_LIST = '.ez-contenttypeselector-list',
         SELECTOR_TOOLTIP = '.cof-content-creation__tooltip',
@@ -127,6 +128,7 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
                 tooltip.setHTML(selectedItem.getAttribute(ATTR_DESCRIPTION));
 
                 tooltip[methodName](CLASS_HIDDEN);
+                tooltip.removeClass(CLASS_TOOLTIP_ERROR);
             }
         },
 
@@ -204,6 +206,23 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
               */
              this.fire('prepareContentModel', {contentType: type});
          },
+
+         /**
+          * Show content type error.
+          *
+          * @method showContentTypeError
+          * @return {cof.ContentTypeSelectorView} the view itself
+          */
+         showContentTypeError: function () {
+            var tooltip = this.get('container').one(SELECTOR_TOOLTIP);
+
+            tooltip.setHTML(this.get('errorMessage'));
+
+            tooltip.addClass(CLASS_TOOLTIP_ERROR);
+            tooltip.removeClass(CLASS_HIDDEN);
+
+            return this;
+         },
     }, {
         ATTRS: {
             /**
@@ -212,7 +231,18 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
              * @attribute selectedContentType
              * @type Object
              */
-            selectedContentType: {}
+            selectedContentType: {},
+
+            /**
+             * The error message
+             *
+             * @attribute errorMessage
+             * @type String
+             */
+            errorMessage: {
+                value: 'The Content item was correctly created but was deleted because unfortunately it can not be used here, ' +
+                    'choose or create another Content item.'
+            }
         }
     });
 });
