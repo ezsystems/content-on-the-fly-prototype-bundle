@@ -13,7 +13,6 @@ use eZ\Publish\Core\Base\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\Core\REST\Server\Controller;
 use eZ\Publish\Core\REST\Server\Values;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\HttpFoundation\Request;
 
