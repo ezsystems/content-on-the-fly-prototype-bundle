@@ -3,10 +3,6 @@
  * For full copyright and license information view LICENSE file distributed with this source code.
  */
 
-.ez-view-universaldiscoverycreateview .ez-view-contentcreationview {
-    margin: .7rem 0 0 0;
-}
-
 @media (max-width: 1400px) {
     .ez-view-universaldiscoverycreateview {
         position: relative;
@@ -20,8 +16,7 @@
 
     .ez-view-universaldiscoverycreateview .ez-view-contentcreationview {
         height: 100%;
-        margin: .5rem auto;
-        padding: 0 2rem;
+        padding: 0 2rem 1rem;
     }
 
     .ez-view-universaldiscoverycreateview .cof-content-creation__page-one,
