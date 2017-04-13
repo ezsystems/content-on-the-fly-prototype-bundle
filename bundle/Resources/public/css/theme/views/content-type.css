@@ -21,3 +21,11 @@
     border-width: 7px 13px 7px 0;
     border-color: transparent #ddd transparent transparent;
 }
+
+.ez-view-contenttypeselectorview .cof-content-creation__tooltip--error {
+    border-color: #F00;
+}
+
+.ez-view-contenttypeselectorview .cof-content-creation__tooltip--error:before {
+    border-color: transparent #F00 transparent transparent;
+}

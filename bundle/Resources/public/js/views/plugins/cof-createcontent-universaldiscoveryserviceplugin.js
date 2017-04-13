@@ -28,6 +28,7 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
             this.onHostEvent('*:prepareContentModel', this._loadContentTypeData, this);
             this.onHostEvent('*:setParentLocation', this._setParentLocation, this);
             this.onHostEvent('*:publishedDraft', this._loadContentLocation, this);
+            this.onHostEvent('*:deleteContent', this._deleteContent, this);
         },
 
         /**
@@ -63,7 +64,9 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
                     title: this.get('discoveryWidgetTitle'),
                     multiple: false,
                     contentDiscoveredHandler: Y.bind(this._setSelectedLocation, this, target),
-                    isSelectable: function () {return true;},
+                    isSelectable: function (contentStruct) {
+                        return contentStruct.contentType.get('isContainer');
+                    },
                     forceVisibleMethod: true,
                     hideTabCreate: true
                 },
@@ -136,7 +139,7 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
              *
              * @event contentDiscover
              */
-            app.fire('contentDiscover');
+            app.fire('contentDiscover', {config: {}});
         },
 
         /**
@@ -241,15 +244,12 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
          */
         _loadContentLocation: function (event) {
             var udwService = this.get('host'),
-                udwParameters = udwService.get('parameters') ? udwService.get('parameters') : this._savedDiscoveryAttributes,
                 selection = {
                     contentType: udwService.get('contentType'),
                 },
                 mainLocation = new Y.eZ.Location();
 
-            if ( udwParameters.loadContent ) {
-                selection.content = event.content;
-            }
+            selection.content = event.content;
 
             mainLocation.set('id', event.content.get('resources').MainLocation);
             mainLocation.load({api: udwService.get('capi')}, function (error) {
@@ -285,6 +285,17 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
                     languageCode: languageCode
                 });
             }
+        },
+
+        /**
+         * Deletes given content.
+         *
+         * @method _deleteContent
+         * @param event {Object} event facade
+         * @param event.content {Object} the content
+         */
+        _deleteContent: function (event) {
+            event.content.delete({api: this.get('host').get('capi')}, function () {});
         },
     }, {
         NS: 'CreateContentUniversalDiscoveryServicePlugin',

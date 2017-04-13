@@ -123,6 +123,14 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
 
             Y.one(SELECTOR_UDW_CONTAINER).removeClass(CLASS_INDEX_FORCED);
 
+            if (!host.get('isSelectable')(event)) {
+                event.target.showContentTypeError();
+
+                this._fireDeleteContentEvent(event.content);
+
+                return;
+            }
+
             /**
              * Fired to confirm selection in the universal discovery widget.
              * Listened in the eZ.UniversalDiscoveryView
@@ -141,6 +149,26 @@ YUI.add('cof-createcontent-universaldiscoveryplugin', function (Y) {
              */
             host.fire('contentDiscovered', {
                 selection: host.get('selection'),
+            });
+        },
+
+        /**
+         * Fires an event to delete content.
+         *
+         * @protected
+         * @method _fireDeleteContentEvent
+         * @param content {Object} the content
+         */
+        _fireDeleteContentEvent: function (content) {
+            /**
+             * Fired to delete content.
+             * Listened in the cof.Plugin.CreateContentUniversalDiscoveryService
+             *
+             * @event deleteContent
+             * @param content {Object} the content
+             */
+            this.get('host').fire('deleteContent', {
+                content: content
             });
         },
 
