@@ -10,6 +10,11 @@
     box-sizing: border-box;
 }
 
+.ez-view-contentcreationview .cof-content-creation__wrapper {
+    overflow: auto;
+    height: 100%
+}
+
 .ez-view-contentcreationview.on-page-two .cof-content-creation__page-one,
 .ez-view-contentcreationview.on-page-two .cof-content-creation__page-two {
     transform: translateX(-100%);

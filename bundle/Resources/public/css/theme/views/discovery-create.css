@@ -9,6 +9,10 @@
     border-radius: 3px;
 }
 
+.ez-view-universaldiscoverycreateview .cof-pagination {
+    overflow: auto;
+}
+
 @media (max-width: 1400px) {
     .ez-view-universaldiscoverycreateview .ez-selection-filter-item-selected:before {
         left: 46.8rem;
