@@ -119,17 +119,23 @@ YUI.add('cof-contenttypeselectorview', function (Y) {
          * @param show {Boolean} should show the tooltip?
          */
         _toggleTooltip: function (show) {
-            var methodName = show ? 'removeClass' : 'addClass',
-                container = this.get('container'),
+            var container = this.get('container'),
                 selectedItem = container.one(SELECTOR_ITEM_SELECTED),
-                tooltip = container.one(SELECTOR_TOOLTIP);
+                tooltip = container.one(SELECTOR_TOOLTIP),
+                methodName,
+                description;
 
-            if (selectedItem) {
-                tooltip.setHTML(selectedItem.getAttribute(ATTR_DESCRIPTION));
-
-                tooltip[methodName](CLASS_HIDDEN);
-                tooltip.removeClass(CLASS_TOOLTIP_ERROR);
+            if (!selectedItem) {
+                return;
             }
+
+            description = selectedItem.getAttribute(ATTR_DESCRIPTION);
+            methodName = show && !!description ? 'removeClass' : 'addClass';
+
+            tooltip.setHTML(description);
+
+            tooltip[methodName](CLASS_HIDDEN);
+            tooltip.removeClass(CLASS_TOOLTIP_ERROR);
         },
 
         /**
