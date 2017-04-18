@@ -140,3 +140,7 @@
 .ez-view-contentcreationview .cof-content-creation__suggested-locations__item {
     padding: .3rem .5rem;
 }
+
+.ez-view-contentcreationview .ez-main-content {
+    height: 100%;
+}
