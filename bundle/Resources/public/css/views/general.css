@@ -3,6 +3,10 @@
  * For full copyright and license information view LICENSE file distributed with this source code.
  */
 
+.ez-view-container {
+    position: relative;
+}
+
 .cof-is-hidden {
     display: none !important;
 }
