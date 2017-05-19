@@ -118,6 +118,7 @@
     overflow: auto;
 }
 
+.ez-view-contentcreationview .cof-content-creation__creator .ez-main-content,
 .ez-view-contentcreationview .ez-editactionbar-container {
     height: 100%;
 }
