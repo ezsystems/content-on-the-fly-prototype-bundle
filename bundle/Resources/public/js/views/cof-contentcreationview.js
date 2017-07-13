@@ -353,9 +353,23 @@ YUI.add('cof-contentcreationview', function (Y) {
                      .removeClass(CLASS_HIDDEN);
 
             createContentView.set('active', true);
-
+            createContentView.after('versionChange', this._setContentLanguage.bind(this, createContentView));
             Y.one(SELECTOR_UDW_CONTAINER).addClass(CLASS_INDEX_FORCED);
 
+            this._hideButtons(createContentView);
+        },
+
+        /**
+         * Updates the content language.
+         *
+         * @protected
+         * @method _setContentLanguage
+         * @param createContentView {Object} the view instance
+         * @param event {Object} event facade
+         */
+        _setContentLanguage: function (createContentView, event) {
+            this.get('contentTypeSelectorView')
+                .set('languageCode', createContentView.get('languageCode'));
             this._hideButtons(createContentView);
         },
 
