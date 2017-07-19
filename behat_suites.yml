@@ -1,0 +1,9 @@
+contentOnTheFly:
+      suites:
+          Standard:
+              paths: [ vendor/ezsystems/content-on-the-fly-prototype/bundle/Features ]
+              filters: 
+                tags: common
+              contexts:
+                  - EzSystems\FlexWorkflowBundle\Features\Context\FlexWf
+                  - EzSystems\EzContentOnTheFlyBundle\Features\Context\ContentOnTheFlyContext
