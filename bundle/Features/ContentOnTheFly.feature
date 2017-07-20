@@ -16,7 +16,7 @@ Feature: Basic interactions for ContentOnTheFly
       Given I start creating content from the Dashboard
       And I create Article from Content group in "/Media" location
       And I fill in basic Article data
-      And I make a modification to Title and send it for review
+      And I make a modification to "Title*:" and send it for review
       And I select reviewer "Yura Rajzer"
       When I confirm sending for review
       Then I can create another content
