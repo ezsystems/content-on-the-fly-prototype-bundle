@@ -29,6 +29,7 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
             this.onHostEvent('*:setParentLocation', this._setParentLocation, this);
             this.onHostEvent('*:publishedDraft', this._loadContentLocation, this);
             this.onHostEvent('*:deleteContent', this._deleteContent, this);
+            this.onHostEvent('*:changeLanguage', this._selectLanguage, this);
         },
 
         /**
@@ -296,6 +297,96 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
          */
         _deleteContent: function (event) {
             event.content.delete({api: this.get('host').get('capi')}, function () {});
+        },
+
+        /**
+         * Opens the LanguageSelectionBox view instance that allows to select a created content language.
+         *
+         * @protected
+         * @method _selectLanguage
+         * @param event {Object} event facade
+         */
+        _selectLanguage: function (event) {
+            var host = this.get('host');
+
+            event.preventDefault();
+
+            /**
+             * Fired to opens languageSelectionBox for selecting language of created content
+             * Listened in the eZ.Plugin.LanguageSelectionBox
+             *
+             * @event languageSelect
+             * @param config {Object} the configuration of language selection box
+             * @param config.title {String} title of the languageSelectionBox
+             * @param config.languageSelectedHandler {Function|Null} languageSelected event handler
+             * @param config.cancelLanguageSelectionHandler {Function|Null} cancelLanguageSelection event handler
+             * @param config.canBaseTranslation {Boolean} enables or disables possibility of based new translation on already existing one
+             * @param config.translationMode {Boolean} translation mode flag
+             * @param config.referenceLanguageList {Array|Null} list of languages used as reference for new translation.
+             */
+            host.get('app').fire('languageSelect', {
+                config: {
+                    title: Y.eZ.trans('change.language.to', {}, 'contentedit'),
+                    languageSelectedHandler: this._setLanguage.bind(this, event.target, event.fields),
+                    cancelLanguageSelectionHandler: null,
+                    canBaseTranslation: false,
+                    translationMode: true,
+                    referenceLanguageList: [host.get('languageCode')]
+                },
+            });
+        },
+
+        /**
+         * Sets language of created content to one given in event facade. After that notification is fired.
+         *
+         * @method _setLanguage
+         * @protected
+         * @param view {Y.eZ.View} the view which triggered language selection box
+         * @param fields {Object} object containing fields of current language version
+         * @param event {Object} the event facade
+         * @param event.selectedLanguageCode {String} language code to which created content will be switched
+         */
+        _setLanguage: function (view, fields, event) {
+            var host = this.get('host'),
+                app = host.get('app'),
+                version = host.get('version'),
+                selectedLanguageCode = event.selectedLanguageCode,
+                formFields = {};
+
+            Y.Object.each(fields, function (field) {
+                formFields[field.fieldDefinitionIdentifier] = {
+                    fieldDefinitionIdentifier: field.fieldDefinitionIdentifier,
+                    fieldValue: field.fieldValue,
+                };
+            });
+
+            host.set('languageCode', selectedLanguageCode);
+            version.setFieldsIn(formFields, selectedLanguageCode);
+
+            view.setAttrs({
+                languageCode: selectedLanguageCode,
+                version: version,
+            });
+
+            /**
+             * Displays a notification bar with error message.
+             * Listened by eZ.PlatformUIApp
+             *
+             * @event notify
+             * @param notification {Object} notification data
+             */
+            app.fire('notify', {
+                notification: {
+                    text: Y.eZ.trans(
+                        'language.changed.to',
+                        {name: app.getLanguageName(selectedLanguageCode)},
+                        'contentedit'
+                    ),
+                    identifier: 'create-content-change-language-to-' + selectedLanguageCode,
+                    state: 'done',
+                    timeout: 5,
+                }
+            });
         },
     }, {
         NS: 'CreateContentUniversalDiscoveryServicePlugin',
