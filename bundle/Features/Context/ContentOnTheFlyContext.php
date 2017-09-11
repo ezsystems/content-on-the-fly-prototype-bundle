@@ -8,6 +8,8 @@ namespace EzSystems\EzContentOnTheFlyBundle\Features\Context;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 
+// check tests
+
 class ContentOnTheFlyContext implements Context
 {
     /** @var \EzSystems\FlexWorkflowBundle\Features\Context\FlexWf */
