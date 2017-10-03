@@ -7,7 +7,7 @@ namespace EzSystems\EzContentOnTheFlyBundle\Features\Context;
 
 use EzSystems\StudioUIBundle\Features\Context\StudioUI;
 use InvalidArgumentException;
-use PHPUnit_Framework_Assert;
+use PHPUnit\Framework\Assert;
 
 class ContentOnTheFlyPopup
 {
@@ -15,9 +15,9 @@ class ContentOnTheFlyPopup
     public $displayedSuggestedLocations = ['/Media', '/Home'];
 
     /** @var string Location selected by the user (defaults to /Home) */
-    public $selectedLocation = "/Home";
+    public $selectedLocation = '/Home';
 
-    /** @var \EzSystems\FlexWorkflowBundle\Features\Context\FlexWf executing context */
+    /** @var \EzSystems\StudioUIBundle\Features\Context\StudioUI main context */
     private $context;
 
     /** @var string Main selector in which Content on the fly is embedded */
@@ -43,8 +43,8 @@ class ContentOnTheFlyPopup
 
     /** @var string[] Array of available parent location of Content on the fly popup and their selectors */
     private static $parentLocations = [
-        "Dashboard" => ".ez-view-dashboardblocksview",
-        "UDW" => ".ez-view-universaldiscoveryview",
+        'Dashboard' => '.ez-view-dashboardblocksview',
+        'UDW' => '.ez-view-universaldiscoveryview',
     ];
 
     /**
@@ -153,7 +153,7 @@ class ContentOnTheFlyPopup
     public function removeContentType()
     {
         $selectedContentType = $this->context->getElementByClass(sprintf('%s %s', $this->mainSelector, $this->changeContentTypeButton));
-        PHPUnit_Framework_Assert::assertSame($this->selectedContentType, $selectedContentType->getText());
+        Assert::assertSame($this->selectedContentType, $selectedContentType->getText());
         $selectedContentType->click();
     }
 
@@ -168,7 +168,7 @@ class ContentOnTheFlyPopup
     }
 
     /**
-     * Waits until the displayed location is the same as set by the user
+     * Waits until the displayed location is the same as set by the user.
      *
      * @param string $location Expected selected location
      */

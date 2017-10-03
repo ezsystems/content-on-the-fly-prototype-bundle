@@ -13,17 +13,20 @@ class ContentOnTheFlyContext implements Context
     /** @var \EzSystems\FlexWorkflowBundle\Features\Context\FlexWf */
     private $flexWfContext;
 
+    /** @var \EzSystems\StudioUIBundle\Features\Context\StudioUI */
+    private $studioContext;
+
     /** @var \EzSystems\EzContentOnTheFlyBundle\Features\Context\ContentOnTheFlyPopup */
     private $contentOnTheFly;
 
     /** @BeforeScenario
-     *
      * @param BeforeScenarioScope $scope Behat scope
      */
-    public function getFlexWfContext(BeforeScenarioScope $scope)
+    public function getContexts(BeforeScenarioScope $scope)
     {
         $environment = $scope->getEnvironment();
         $this->flexWfContext = $environment->getContext('EzSystems\FlexWorkflowBundle\Features\Context\FlexWf');
+        $this->studioContext = $environment->getContext('EzSystems\StudioUIBundle\Features\Context\StudioUI');
     }
 
     /**
@@ -34,8 +37,8 @@ class ContentOnTheFlyContext implements Context
     public function startCreatingContentFromDashboard()
     {
         $parentSelector = ContentOnTheFlyPopup::getParentSelector('Dashboard');
-        $this->contentOnTheFly = new ContentOnTheFlyPopup($this->flexWfContext, $parentSelector);
-        $this->flexWfContext->clickElementByText('CREATE', 'button');
+        $this->contentOnTheFly = new ContentOnTheFlyPopup($this->studioContext, $parentSelector);
+        $this->studioContext->clickElementByText('CREATE', 'button');
     }
 
     /**
@@ -46,8 +49,8 @@ class ContentOnTheFlyContext implements Context
     public function startCreatingContentFromUDW()
     {
         $parentSelector = ContentOnTheFlyPopup::getParentSelector('UDW');
-        $this->contentOnTheFly = new ContentOnTheFlyPopup($this->flexWfContext, $parentSelector);
-        $this->flexWfContext->switchContentBrowserTab('Create');
+        $this->contentOnTheFly = new ContentOnTheFlyPopup($this->studioContext, $parentSelector);
+        $this->studioContext->switchContentBrowserTab('Create');
     }
 
     /**
