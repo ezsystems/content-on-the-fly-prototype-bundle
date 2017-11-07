@@ -15,7 +15,7 @@ class ContentOnTheFlyPopup
     public $displayedSuggestedLocations = ['/Media', '/Home'];
 
     /** @var string Location selected by the user (defaults to /Home) */
-    public $selectedLocation = "/Home";
+    public $selectedLocation = '/Home';
 
     /** @var \EzSystems\FlexWorkflowBundle\Features\Context\FlexWf executing context */
     private $context;
@@ -43,8 +43,8 @@ class ContentOnTheFlyPopup
 
     /** @var string[] Array of available parent location of Content on the fly popup and their selectors */
     private static $parentLocations = [
-        "Dashboard" => ".ez-view-dashboardblocksview",
-        "UDW" => ".ez-view-universaldiscoveryview",
+        'Dashboard' => '.ez-view-dashboardblocksview',
+        'UDW' => '.ez-view-universaldiscoveryview',
     ];
 
     /**
@@ -168,7 +168,7 @@ class ContentOnTheFlyPopup
     }
 
     /**
-     * Waits until the displayed location is the same as set by the user
+     * Waits until the displayed location is the same as set by the user.
      *
      * @param string $location Expected selected location
      */

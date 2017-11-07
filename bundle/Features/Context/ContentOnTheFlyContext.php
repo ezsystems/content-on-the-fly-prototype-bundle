@@ -17,7 +17,6 @@ class ContentOnTheFlyContext implements Context
     private $contentOnTheFly;
 
     /** @BeforeScenario
-     *
      * @param BeforeScenarioScope $scope Behat scope
      */
     public function getFlexWfContext(BeforeScenarioScope $scope)
