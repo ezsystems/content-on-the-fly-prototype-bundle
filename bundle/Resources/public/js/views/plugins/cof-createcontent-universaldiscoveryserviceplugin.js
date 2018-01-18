@@ -194,7 +194,8 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
                 host = this.get('host'),
                 user = host.get('app').get('user'),
                 target = event.target,
-                defaultFields = {};
+                defaultFields = {},
+                languageCode;
 
             content.set('name', 'New "' + type.get('names')[mainLanguageCode] + '"');
 
@@ -205,10 +206,15 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
                 };
             });
 
+            languageCode = mainLanguageCode;
+            if (host.get('request').params.languageCode) {
+                languageCode = host.get('request').params.languageCode;
+            }
+
             host.setAttrs({
                 content: content,
                 version: version,
-                languageCode: mainLanguageCode,
+                languageCode: languageCode,
                 contentType: type,
                 eventTarget: target
             });
@@ -216,7 +222,7 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
             target.setAttrs({
                 content: content,
                 version: version,
-                languageCode: mainLanguageCode,
+                languageCode: languageCode,
                 owner: user,
                 user: user
             });
