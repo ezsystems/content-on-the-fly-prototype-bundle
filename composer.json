@@ -23,8 +23,10 @@
         "friendsofphp/php-cs-fixer": "^2.1"
     },
     "extra": {
+        "_ezplatform_branch_for_behat_tests": "1.13",        
         "branch-alias": {
-            "dev-master": "0.1.x-dev"
+            "dev-master": "0.1.x-dev",
+            "dev-tmp_ci_branch": "0.1.x-dev"
         }
     }
 }

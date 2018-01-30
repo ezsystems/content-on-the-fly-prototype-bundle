@@ -1,0 +1,41 @@
+# Use trusty for better performance (and avoiding mysql/postgres/solr gone issues on precise and container infra)
+dist: trusty
+sudo: required
+language: php
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+env:
+  global:
+    # For functional tests
+    - COMPOSE_FILE="doc/docker/base-dev.yml:doc/docker/redis.yml:doc/docker/selenium.yml"
+    - SYMFONY_ENV=behat
+    - SYMFONY_DEBUG=0
+    - INSTALL_EZ_INSTALL_TYPE=demo
+
+matrix:
+    fast_finish: true
+    include:
+        # Run behat first as it takes the most time (don't need to specify php version here as we don't really care about version on host)
+        - php: 7.0
+          env: BEFORE="./bin/travis/prepare_behat.sh" RUN_INSTALL=1 TEST_CMD="./bin/travis/runbehat.sh bin/behat -v --no-interaction --colors --profile=contentOnTheFly --tags=common --strict"
+
+# test only master (+ Pull requests)
+branches:
+    only:
+        - master
+        - /^\d.\d+$/
+
+before_install:
+    - if [ "$NETWORK_KEY" = "" ] ; then echo "ENV variables for auth.json not defined" && exit 1 ; fi
+    - composer config http-basic.updates.ez.no $NETWORK_KEY $NETWORK_TOKEN
+    - composer config github-oauth.github.com $GITHUB_TOKEN
+    - phpenv config-rm xdebug.ini
+    - echo 'memory_limit = -1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
+before_script:
+    - $BEFORE
+
+script: $TEST_CMD
