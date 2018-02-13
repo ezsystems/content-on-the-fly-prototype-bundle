@@ -190,14 +190,18 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
             var content = new Y.eZ.Content(),
                 version = new Y.eZ.Version(),
                 type = event.contentType,
-                mainLanguageCode = type.get('mainLanguageCode'),
                 host = this.get('host'),
                 user = host.get('app').get('user'),
+                activeViewService = host.get('app').get('activeViewService'),
                 target = event.target,
                 defaultFields = {},
-                languageCode;
+                languageCode = type.get('mainLanguageCode');
 
-            content.set('name', 'New "' + type.get('names')[mainLanguageCode] + '"');
+            if (activeViewService.name === 'contentCreateViewService' || activeViewService.name === 'contentEditViewService') {
+                languageCode = activeViewService.get('languageCode');
+            }
+
+            content.set('name', 'New "' + type.get('names')[languageCode] + '"');
 
             Y.Object.each(type.get('fieldDefinitions'), function (fieldDef, identifier) {
                 defaultFields[identifier] = {
@@ -205,11 +209,6 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
                     fieldValue: fieldDef.defaultValue,
                 };
             });
-
-            languageCode = mainLanguageCode;
-            if (host.get('request').params.languageCode) {
-                languageCode = host.get('request').params.languageCode;
-            }
 
             host.setAttrs({
                 content: content,
