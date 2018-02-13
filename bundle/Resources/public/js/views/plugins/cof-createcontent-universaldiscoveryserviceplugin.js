@@ -191,8 +191,9 @@ YUI.add('cof-createcontent-universaldiscoveryserviceplugin', function (Y) {
                 version = new Y.eZ.Version(),
                 type = event.contentType,
                 host = this.get('host'),
-                user = host.get('app').get('user'),
-                activeViewService = host.get('app').get('activeViewService'),
+                app = host.get('app'),
+                user = app.get('user'),
+                activeViewService = app.get('activeViewService'),
                 target = event.target,
                 defaultFields = {},
                 languageCode = type.get('mainLanguageCode');
