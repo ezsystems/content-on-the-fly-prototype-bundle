@@ -1,7 +1,7 @@
 Feature: Basic interactions for ContentOnTheFly
 
   Background:
-    Given I am logged in as admin on StudioUI
+    Given I am logged in as admin on PlatformUI
 
     @javascript @common @contentOnTheFly
       Scenario: I can create Content directly from the Dashboard
@@ -9,7 +9,7 @@ Feature: Basic interactions for ContentOnTheFly
       And I create Article from Content group in "Home/Places & Tastes/Tastes" location
       And I fill in basic Article data
       When I click the edit action bar button Publish
-      Then I can create another content
+      Then I create another content
 
     @javascript @common @contentOnTheFly @flex
     Scenario: I can create Content directly from the Dashboard and send it for review
@@ -17,9 +17,9 @@ Feature: Basic interactions for ContentOnTheFly
       And I create Article from Content group in "/Media" location
       And I fill in basic Article data
       And I make a modification to "Title*:" and send it for review
-      And I select reviewer "Yura Rajzer"
+      And I add reviewer "Yura Rajzer"
       When I confirm sending for review
-      Then I can create another content
+      Then I create another content
 
     @javascript @common @contentOnTheFly
     Scenario: I can create Content from the Universal Discovery widget
@@ -30,7 +30,7 @@ Feature: Basic interactions for ContentOnTheFly
       And I create Gallery from Media group in "/Media" location
       And I fill in Name with "Gallery Title"
       When I click the edit action bar button Publish
-      Then I can create another content
+      Then I create another content
 
     @javascript @common @contentOnTheFly
     Scenario: I can create embedded Content while creating another Content
@@ -44,7 +44,7 @@ Feature: Basic interactions for ContentOnTheFly
       And I click the edit action bar button Publish
       And I see embedded content in Summary section
       When I click the edit action bar button Publish
-      Then I can create another content
+      Then I am redirected to a location view
     
     @javascript @common @contentOnTheFly
     Scenario: I can create embedded Content while configuring a Block
@@ -67,4 +67,4 @@ Feature: Basic interactions for ContentOnTheFly
       And I finish configuration
       And I fill in Name with "Gallery Title"
       When I click the edit action bar button Publish
-      Then I can create another content
+      Then I create another content

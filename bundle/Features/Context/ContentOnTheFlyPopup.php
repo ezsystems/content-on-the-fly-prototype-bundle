@@ -7,7 +7,7 @@ namespace EzSystems\EzContentOnTheFlyBundle\Features\Context;
 
 use EzSystems\StudioUIBundle\Features\Context\StudioUI;
 use InvalidArgumentException;
-use PHPUnit_Framework_Assert;
+use PHPUnit\Framework\Assert;
 
 class ContentOnTheFlyPopup
 {
@@ -17,7 +17,7 @@ class ContentOnTheFlyPopup
     /** @var string Location selected by the user (defaults to /Home) */
     public $selectedLocation = '/Home';
 
-    /** @var \EzSystems\FlexWorkflowBundle\Features\Context\FlexWf executing context */
+    /** @var \EzSystems\StudioUIBundle\Features\Context\StudioUI main context */
     private $context;
 
     /** @var string Main selector in which Content on the fly is embedded */
@@ -153,7 +153,7 @@ class ContentOnTheFlyPopup
     public function removeContentType()
     {
         $selectedContentType = $this->context->getElementByClass(sprintf('%s %s', $this->mainSelector, $this->changeContentTypeButton));
-        PHPUnit_Framework_Assert::assertSame($this->selectedContentType, $selectedContentType->getText());
+        Assert::assertSame($this->selectedContentType, $selectedContentType->getText());
         $selectedContentType->click();
     }
 
